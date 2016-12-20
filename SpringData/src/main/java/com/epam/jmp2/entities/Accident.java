@@ -26,15 +26,17 @@ public class Accident implements Serializable {
 	@Column(name = "Latitude", nullable = false, length = 10)
 	private Float latitude;
 	
-	@Column(name = "Accident_Severity", nullable = false)
-	private Integer accidentSeverity;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "Accident_Severity", nullable = false)
+	private AccidentSeverity accidentSeverity;
+
 	@Column(name = "Number_of_Vehicles", nullable = false)
 	private Integer numberOfVehicles;
 	@Column(name = "Number_of_Casualties", nullable = false)
 	private Integer numberOfCasualties;
 	@Column(name = "Date", nullable = false)
 	// @Temporal(TemporalType.DATE)
-	private String Date;
+	private String date;
 	@Column(name = "Day_of_Week  ", nullable = false)
 	private Integer dayOfWeek;
 	@Column(name = "Time", nullable = false)
@@ -92,11 +94,11 @@ public class Accident implements Serializable {
 		this.policeForce = policeForce;
 	}
 
-	public Integer getAccidentSeverity() {
+	public AccidentSeverity getAccidentSeverity() {
 		return accidentSeverity;
 	}
 
-	public void setAccidentSeverity(Integer accidentSeverity) {
+	public void setAccidentSeverity(AccidentSeverity accidentSeverity) {
 		this.accidentSeverity = accidentSeverity;
 	}
 
@@ -117,11 +119,11 @@ public class Accident implements Serializable {
 	}
 
 	public String getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.date = date;
 	}
 
 	public Integer getDayOfWeek() {
