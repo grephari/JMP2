@@ -6,6 +6,7 @@
     <!-- Will be referenced in Spring Context File -->
     <persistence-unit name="SpringData" transaction-type="RESOURCE_LOCAL">
         <class>com.epam.jmp2.entities.Accident</class>
+        <class>com.epam.jmp2.entities.AccidentSeverity</class>
         <class>com.epam.jmp2.entities.RoadSurfaceCondition</class>
         <class>com.epam.jmp2.entities.WeatherCondition</class>
         <class>com.epam.jmp2.entities.LightCondition</class>
