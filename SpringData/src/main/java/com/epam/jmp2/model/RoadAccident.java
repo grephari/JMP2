@@ -17,6 +17,7 @@ public class RoadAccident {
     private int numberOfCasualties;
     private LocalDate date;
     private LocalTime time;
+    private String year;
 
     public void setDayOfWeek(java.time.DayOfWeek dayOfWeek) {
         DayOfWeek = dayOfWeek;
@@ -47,9 +48,17 @@ public class RoadAccident {
         this.weatherConditions = builder.weatherConditions;
         this.roadSurfaceConditions = builder.roadSurfaceConditions;
     }
+    
 
+    public String getYear() {
+		return year;
+	}
 
-    public String getAccidentId() {
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getAccidentId() {
         return accidentId;
     }
 
@@ -156,16 +165,22 @@ public class RoadAccident {
     public void setRoadSurfaceConditions(String roadSurfaceConditions) {
         this.roadSurfaceConditions = roadSurfaceConditions;
     }
+
+	@Override
+	public String toString() {
+		return "RoadAccident [accidentId=" + accidentId + ", "
+				+ "longitude=" + longitude + ", "
+				+ "latitude=" + latitude + ","
+				+ "policeForce=" + policeForce + ","
+				+ "accidentSeverity=" + accidentSeverity
+				+ ", numberOfVehicles=" + numberOfVehicles
+				+ ", numberOfCasualties=" + numberOfCasualties + ", date="
+				+ date + ", time=" + time + ", year=" + year + ", DayOfWeek="
+				+ DayOfWeek + ", districtAuthority=" + districtAuthority
+				+ ", lightConditions=" + lightConditions
+				+ ", weatherConditions=" + weatherConditions
+				+ ", roadSurfaceConditions=" + roadSurfaceConditions + "]";
+	}
     
-    public String toString() {
-    	return "RoadAccident:" +
-    			"\nid:" + this.accidentId +
-    			"\ndistrictAuthority:" + this.districtAuthority+
-    			"\npoliceForce:" + this.policeForce +
-    			"\nroadSurfaceConditions:" + this.roadSurfaceConditions +
-    			"\nweatherConditions:" + this.weatherConditions;
-    			
-    			
-    			
-    } 
+ 
 }

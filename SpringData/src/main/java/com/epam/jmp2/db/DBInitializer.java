@@ -55,8 +55,8 @@ public class DBInitializer {
 
             connection.prepareStatement("CREATE TEXT TABLE accidents(\n" +
                     "   Accident_Index             VARCHAR(20) NOT NULL PRIMARY KEY\n" +
-                    "  ,Longitude                  NUMERIC(10,20) NOT NULL\n" +
-                    "  ,Latitude                   NUMERIC(10,20) NOT NULL\n" +
+                    "  ,Longitude                  NUMERIC(20,10) NOT NULL\n" +
+                    "  ,Latitude                   NUMERIC(20,10) NOT NULL\n" +
                     "  ,Police_Force               INTEGER  NOT NULL\n" +
                     "  ,Accident_Severity          INTEGER  NOT NULL\n" +
                     "  ,Number_of_Vehicles         INTEGER  NOT NULL\n" +
@@ -121,8 +121,9 @@ public class DBInitializer {
        connection.prepareStatement("SET TABLE weather_conditions SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\weather_conditions.csv;ignore_first=true\"").execute();
        connection.prepareStatement("SET TABLE accidents SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\DfTRoadSafety_Accidents_2009.csv;ignore_first=true\"").execute();
  
-    	 } catch (SQLException e) {
+          	 } catch (SQLException e) {
               e.printStackTrace();
+              
           }
       }
 
