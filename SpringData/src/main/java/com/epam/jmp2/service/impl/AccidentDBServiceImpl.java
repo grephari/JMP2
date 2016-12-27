@@ -1,8 +1,12 @@
 package com.epam.jmp2.service.impl;
 
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,8 +14,12 @@ import org.springframework.stereotype.Component;
 import com.epam.jmp2.dbrepositories.AccidentRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
 import com.epam.jmp2.entities.Accident;
-import com.epam.jmp2.entities.DistrictAuthority;
+import com.epam.jmp2.entities.RoadSurfaceCondition;
+import com.epam.jmp2.entities.WeatherCondition;
 import com.epam.jmp2.model.RoadAccident;
+import com.epam.jmp2.model.RoadAccidentBuilder;
+import com.epam.jmp2.model.TimeOfDay;
+import com.epam.jmp2.model.Util;
 import com.epam.jmp2.service.AccidentService;
 
 @Component
@@ -23,53 +31,83 @@ public class AccidentDBServiceImpl implements AccidentService {
     @Autowired
     private DistrictAuthorityRepository districtAuthorityRepository;
 
-    public AccidentRepository getAccidentRepository() {
-        return accidentRepository;
-    }
-
-    public void setAccidentRepository(AccidentRepository accidentRepository) {
-        this.accidentRepository = accidentRepository;
-    }
-
-    public DistrictAuthority findDistrictAuthority(Integer code) {
-    	DistrictAuthority accident = districtAuthorityRepository.findByCode(code);
-        return accident;
-    }
-
     public Accident findOne(String accidentId) {
-        // To be filled by mentee
-        return accident;
+        return accidentRepository.findOne(accidentId);
+    }
+    
+    public Iterable<RoadAccident> getAllAccidentsByDate(String date) {
+    	List<Accident> accidentByWeatherCondition = accidentRepository.findByDate(date);
+        return getRoadAccidentFromAccident(accidentByWeatherCondition);
     }
 
-    public Iterable getAllAccidentsByRoadCondition(Integer label) {
-        // To be filled by mentee
-
-        return null;
+    public Iterable<RoadAccident> getAllAccidentsByRoadCondition(Integer label) {
+    	RoadSurfaceCondition roadSurfaceCondition = new RoadSurfaceCondition();
+    	roadSurfaceCondition.setCode(label);
+    	List<Accident> accidentByRoadSurfaceCondition = accidentRepository.findByRoadSurfaceCondition(roadSurfaceCondition);
+    	return getRoadAccidentFromAccident(accidentByRoadSurfaceCondition);
+    }
+    
+	public Long getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year) throws ParseException {
+    	WeatherCondition weatherConditionItem = new WeatherCondition();
+    	weatherConditionItem.setCode(weatherCondition);
+    	
+        List<Accident> accidentList = accidentRepository.findAccidentsByWeatherCondition(weatherConditionItem);
+        List<Accident> yearFromDate = getYear(accidentList);
+        
+		Map<String, Long> result = (yearFromDate).stream().collect(Collectors.groupingBy(Accident::getYear, Collectors.counting()));
+        return result.get(year);
     }
 
-    public Iterable getAllAccidentsByWeatherConditionAndYear(
-            Integer weatherCondition, String year) {
-
-       // Iterable<RoadAccident> accidentByWeatherCondition = getAccidentRepository()
-               // .findAccidentsByWeatherConditionAndYear(weatherCondition, year);
-        return null;
+    public Iterable<RoadAccident> updateTimePeriod(String date) {
+    	List<Accident> accidentData = accidentRepository.findByDate(date);
+    	if(accidentData != null && !accidentData.isEmpty()){
+    		for(Accident accidentItem :accidentData){
+    			String updateDayPeriod = TimeOfDay.getTimeOfDay(LocalTime.parse(accidentItem.getTime()));
+    			accidentItem.setTime(updateDayPeriod);
+    			accidentRepository.save(accidentItem);
+    		}
+    	}
+    	return getRoadAccidentFromAccident(accidentRepository.findByDate(date));
     }
 
-    public Iterable<RoadAccident> getAllAccidentsByDate(Date date) {
-       // To be filled by mentee
-        return null;
-
-    }
-    public Boolean update(RoadAccident roadAccident) {
-        // To be filled by mentee
-        return null;
-    }
-
-	public DistrictAuthorityRepository getDistrictAuthorityRepository() {
+    public DistrictAuthorityRepository getDistrictAuthorityRepository() {
 		return districtAuthorityRepository;
 	}
 
 	public void setDistrictAuthorityRepository(DistrictAuthorityRepository districtAuthorityRepository) {
 		this.districtAuthorityRepository = districtAuthorityRepository;
+	}
+	
+    private List<RoadAccident> getRoadAccidentFromAccident(List<Accident> accidentList) {
+    	List<RoadAccident> roadaccidentByRoadSurfaceConditionList = new ArrayList<>(); 
+    	if(accidentList != null && !accidentList.isEmpty()){
+    		for(Accident accident : accidentList){
+        		RoadAccidentBuilder roadAccidentByRoadSurface = new RoadAccidentBuilder();
+        		roadAccidentByRoadSurface.withAccidentId(accident.getAccidentIndex());
+        		roadAccidentByRoadSurface.withAccidentSeverity(accident.getAccidentSeverity().toString());
+        		roadAccidentByRoadSurface.withDate(LocalDate.parse(accident.getDate()));
+        		roadAccidentByRoadSurface.withDistrictAuthority(accident.getLocalDistrictAuthority().getLabel());
+        		roadAccidentByRoadSurface.withLatitude(accident.getLatitude());
+        		roadAccidentByRoadSurface.withLightConditions(accident.getLightCondition().getLabel());
+        		roadAccidentByRoadSurface.withLongitude(accident.getLongitude());
+        		roadAccidentByRoadSurface.withNumberOfCasualties(accident.getNumberOfCasualties());
+        		roadAccidentByRoadSurface.withNumberOfVehicles(accident.getNumberOfCasualties());
+        		roadAccidentByRoadSurface.withPoliceForce(accident.getPoliceForce().getLabel());
+        		roadAccidentByRoadSurface.withRoadSurfaceConditions(accident.getRoadSurfaceCondition().getLabel());
+        		roadAccidentByRoadSurface.withWeatherConditions(accident.getWeatherCondition().getLabel());
+        		roadaccidentByRoadSurfaceConditionList.add(roadAccidentByRoadSurface.build());
+        	}
+    	}
+		return roadaccidentByRoadSurfaceConditionList;
+	}
+
+    private List<Accident> getYear(List<Accident> accidentByWeatherConditionList) throws ParseException {
+    	if(accidentByWeatherConditionList != null && !accidentByWeatherConditionList.isEmpty()){
+    		for(Accident accident : accidentByWeatherConditionList){
+        		String year = Util.parseStringDateToGetYear(accident.getDate());
+        		accident.setYear(year);
+        	}	
+    	}
+    	return accidentByWeatherConditionList;
 	}
 }

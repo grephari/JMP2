@@ -1,6 +1,6 @@
 package com.epam.jmp2.service;
 
-import java.util.Date;
+import java.text.ParseException;
 
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.model.RoadAccident;
@@ -15,11 +15,11 @@ public interface AccidentService {
     Iterable<RoadAccident> getAllAccidentsByRoadCondition(Integer label);
 
     // scenario 3
-    Iterable<RoadAccident> getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year);
+    Long getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year) throws ParseException;
 
     // scenario 4
-    Iterable<RoadAccident> getAllAccidentsByDate(Date date);
+    Iterable<RoadAccident> getAllAccidentsByDate(String date);
 
-    Boolean update(RoadAccident roadAccident);
+    Iterable<RoadAccident> updateTimePeriod(String date);
 
 }
