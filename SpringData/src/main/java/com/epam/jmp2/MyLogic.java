@@ -1,8 +1,6 @@
 package com.epam.jmp2;
 
 import java.sql.Connection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,6 +11,7 @@ import com.epam.jmp2.db.DBInitializer;
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.model.RoadAccident;
 import com.epam.jmp2.service.impl.AccidentDBServiceImpl;
+import com.epam.jmp2.util.DateTimeUtils;
 
 public class MyLogic {
 
@@ -63,13 +62,9 @@ public class MyLogic {
 		System.out.println("=============================");
 		System.out.println("Querying accidents by date...");
 		System.out.println("=============================");
-		try {
-			accidents = registrationBean.getAllAccidentsByDate(new SimpleDateFormat("yyyy-MM-dd").parse("2009-01-01"));
-			for (RoadAccident ra : accidents) {
-				System.out.println(ra);
-			}
-		} catch (ParseException e) {
-			System.err.println("Error parsing date...");
+		accidents = registrationBean.getAllAccidentsByDate(DateTimeUtils.toDate("2009-01-01"));
+		for (RoadAccident ra : accidents) {
+			System.out.println(ra);
 		}
 
 		System.out.println("=====================");

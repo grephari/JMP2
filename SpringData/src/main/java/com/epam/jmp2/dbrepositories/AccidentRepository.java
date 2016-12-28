@@ -1,5 +1,8 @@
 package com.epam.jmp2.dbrepositories;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +20,9 @@ public interface AccidentRepository extends JpaRepository<Accident, String> {
 
 	Accident findOne(String accidentId);
 
+	@Query(value = QUERY_ROAD_ACCIDENT_PREFIX + "where a.accidentIndex=:accidentId")
+	RoadAccident queryById(@Param("accidentId") String accidentId);
+
 	@Query(value = QUERY_ROAD_ACCIDENT_PREFIX + "where a.roadSurfaceCondition.code = :roadSurfaceCode")
 	Iterable<RoadAccident> queryByRoadSurfaceCondition(@Param("roadSurfaceCode") Integer road_surface);
 
@@ -26,6 +32,8 @@ public interface AccidentRepository extends JpaRepository<Accident, String> {
 			@Param("strYear") String year);
 
 	@Query(value = QUERY_ROAD_ACCIDENT_PREFIX + "where a.date = :accidentDate")
-	Iterable<RoadAccident> findByDate(@Param("accidentDate") String date);
+	Iterable<RoadAccident> findByAccidentDate(@Param("accidentDate") String date);
+
+	Optional<List<Accident>> findByDate(String data);
 
 }

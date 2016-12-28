@@ -1,8 +1,12 @@
 package com.epam.jmp2.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,6 +41,10 @@ public class AccidentDBServiceImpl implements AccidentService {
 		return accidentRepository.findOne(accidentId);
 	}
 
+	public RoadAccident getAccidentById(String accidentId) {
+		return accidentRepository.queryById(accidentId);
+	}
+
 	@Override
 	public Iterable<RoadAccident> getAllAccidentsByRoadCondition(Integer label) {
 		return accidentRepository.queryByRoadSurfaceCondition(label);
@@ -56,7 +64,28 @@ public class AccidentDBServiceImpl implements AccidentService {
 
 	@Override
 	public Iterable<RoadAccident> getAllAccidentsByDate(Date date) {
-		return accidentRepository.findByDate(DateTimeUtils.formatDate(date));
+
+		Optional<List<Accident>> optional = accidentRepository.findByDate(DateTimeUtils.formatDate(date));
+		List<Accident> list = optional.get();
+		// list.stream().forEach(System.out::println);
+
+		Iterable<RoadAccident> itr = accidentRepository.findByAccidentDate(DateTimeUtils.formatDate(date));
+
+		TreeSet<String> listSet = new TreeSet<>();
+		for (Accident ac : list) {
+			listSet.add(ac.getAccidentIndex());
+		}
+
+		TreeSet<String> itrSet = new TreeSet<>();
+		for (RoadAccident ra : itr) {
+			itrSet.add(ra.getAccidentId());
+		}
+
+		// last versions of JpaRepository could understand what do you want just by method name ---> yes it does.
+		assert listSet.size() == itrSet.size();
+		assert listSet.equals(itrSet);
+
+		return itr;
 	}
 
 	@Override
@@ -69,13 +98,17 @@ public class AccidentDBServiceImpl implements AccidentService {
 			return Boolean.FALSE;
 		}
 		try {
-			accident.setDate(DateTimeUtils.formatLocalDate(roadAccident.getDate()));
-			accident.setDayOfWeek(roadAccident.getDayOfWeek().getValue());
+			if (roadAccident.getDate() instanceof LocalDate) {
+				accident.setDate(DateTimeUtils.formatLocalDate(roadAccident.getDate()));
+				accident.setDayOfWeek(roadAccident.getDayOfWeek().getValue());
+			}
 			accident.setLatitude(roadAccident.getLatitude());
 			accident.setLongitude(roadAccident.getLongitude());
 			accident.setNumberOfCasualties(roadAccident.getNumberOfCasualties());
 			accident.setNumberOfVehicles(roadAccident.getNumberOfVehicles());
-			accident.setTime(DateTimeUtils.formatLocalTime(roadAccident.getTime()));
+			if (roadAccident.getTime() instanceof LocalTime) {
+				accident.setTime(DateTimeUtils.formatLocalTime(roadAccident.getTime()));
+			}
 			accidentRepository.save(accident);
 		} catch (Throwable t) {
 			t.printStackTrace();

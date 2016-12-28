@@ -1,6 +1,7 @@
 package com.epam.jmp2.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,6 +27,17 @@ public abstract class DateTimeUtils {
 		if (date == null)
 			return null;
 		return dateFormatter.format(date);
+	}
+
+	public static Date toDate(String date) {
+		if (date == null)
+			return null;
+		try {
+			return dateFormatter.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static String formatLocalDate(LocalDate lDate) {

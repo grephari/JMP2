@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.epam.jmp2.util.DateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Contains information about one road accident
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RoadAccident {
 	private String accidentId;
 	private float longitude;
@@ -183,9 +185,14 @@ public class RoadAccident {
 	}
 
 	public String toString() {
-		return "RoadAccident:" + "\nid:" + this.accidentId + "\ndistrictAuthority:" + this.districtAuthority
-				+ "\npoliceForce:" + this.policeForce + "\nroadSurfaceConditions:" + this.roadSurfaceConditions
-				+ "\nweatherConditions:" + this.weatherConditions;
-
-	}
+    	return "RoadAccident:" +
+    			"\nid:" + this.accidentId +
+    			"\ndistrictAuthority:" + this.districtAuthority+
+    			"\npoliceForce:" + this.policeForce +
+    			"\nroadSurfaceConditions:" + this.roadSurfaceConditions +
+    			"\nweatherConditions:" + this.weatherConditions;
+    			
+    			
+    			
+    } 
 }
