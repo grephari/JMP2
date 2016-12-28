@@ -18,7 +18,7 @@ public interface AccidentService {
     Iterable<RoadAccident> getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year);
 
     // scenario 4
-    Iterable<RoadAccident> getAllAccidentsByDate(Date date);
+    Iterable<RoadAccident> getAllAccidentsByDate(String date);
 
     Boolean update(RoadAccident roadAccident);
 

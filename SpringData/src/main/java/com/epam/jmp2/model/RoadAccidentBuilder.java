@@ -12,7 +12,7 @@ public class RoadAccidentBuilder {
     int numberOfVehicles;
     int numberOfCasualties;
     LocalDate date;
-    LocalTime time;
+    String time;
     String districtAuthority;
     String lightConditions;
     String weatherConditions;
@@ -61,7 +61,7 @@ public class RoadAccidentBuilder {
         return this;
     }
 
-    public RoadAccidentBuilder withTime(LocalTime time) {
+    public RoadAccidentBuilder withTime(String time) {
         this.time = time;
         return this;
     }

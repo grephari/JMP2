@@ -11,6 +11,7 @@
         <class>com.epam.jmp2.entities.LightCondition</class>
         <class>com.epam.jmp2.entities.PoliceForce</class>
         <class>com.epam.jmp2.entities.DistrictAuthority</class>
+        <class>com.epam.jmp2.entities.AccidentSeverity</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost/jmp" />
             <property name="javax.persistence.jdbc.user" value="sa" />
@@ -18,7 +19,7 @@
             <property name="javax.persistence.jdbc.password" value="" />
             <!-- enable this property to see SQL and other logging -->
             <property name="eclipselink.logging.level" value="FINE" />
-            <!-- property name="eclipselink.ddl-generation" value="DROP_AND_CREATE" /-->
+            <property name="eclipselink.ddl-generation" value="DROP_AND_CREATE" />
         </properties>
     </persistence-unit>
 </persistence>
