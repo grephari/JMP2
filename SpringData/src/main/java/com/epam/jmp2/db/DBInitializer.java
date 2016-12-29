@@ -7,14 +7,13 @@ import java.sql.SQLException;
 
 import org.hsqldb.Server;
 
-public class DBInitializer {
-	
+public class DBInitializer{
+
     private static Server hsqlServer = null;
     private static Connection connection = null;
     
     public void initTablesFromFiles(Connection connection){
         try {
-        	
             String workingDir = System.getProperty("user.dir");
 
             connection.prepareStatement("CREATE TEXT TABLE accident_severity(\n" +
@@ -130,12 +129,11 @@ public class DBInitializer {
         hsqlServer = null;
     }
     
-    public static void main(String a[]) {
-    	DBInitializer dbinit = new DBInitializer();
-    	Connection connection = dbinit.initDatabase();
-    	dbinit.initTablesFromFiles(connection);
-    	dbinit.stopDatabase();
-    }
-	
+//    public static void main(String a[]) {
+//    	DBInitializer dbinit = new DBInitializer();
+//    	Connection connection = dbinit.initDatabase();
+//    	dbinit.initTablesFromFiles(connection);
+//    	dbinit.stopDatabase();
+//    }
 
 }

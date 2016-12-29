@@ -11,15 +11,15 @@
 	<context:annotation-config />
 
 	<!-- For defining Spring Bean -->
-	<!-- <context:component-scan base-package="com.springdatatraining.simple" /> 
-	<context:component-scan base-package="com.springdatatraining.onetoone,com.springdatatraining.repositories"/> -->
-	
-	
-	<context:component-scan base-package="com.epam" /> 
-	
+	<!-- <context:component-scan base-package="com.springdatatraining.simple" 
+		/> <context:component-scan base-package="com.springdatatraining.onetoone,com.springdatatraining.repositories"/> -->
+
+
+	<context:component-scan base-package="com.epam" />
+
 
 	<!-- For bootstrapping the Spring Repository -->
-	 <jpa:repositories base-package="com.epam.jmp2.dbrepositories" />
+	<jpa:repositories base-package="com.epam.jmp2.dbrepositories" />
 
 	<!-- Necessary to get the entity manager injected into the factory bean -->
 	<bean
@@ -27,12 +27,12 @@
 
 	<!-- Define EclipseLink JPA Vendor Adapter -->
 	<bean id="jpaVendorAdapter"
-        class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
-        <property name="databasePlatform"
-          value="org.eclipse.persistence.platform.database.HSQLPlatform"/>
-        <property name="generateDdl" value="false"/>
-        <property name="showSql" value="true"/>
-        </bean>
+		class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+		<property name="databasePlatform"
+			value="org.eclipse.persistence.platform.database.HSQLPlatform" />
+		<property name="generateDdl" value="false" />
+		<property name="showSql" value="true" />
+	</bean>
 
 	<!-- Entity Manager Factory -->
 	<bean id="entityManagerFactory"
@@ -48,5 +48,5 @@
 
 	<!-- Enable Transactional Manner -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
+
 </beans>

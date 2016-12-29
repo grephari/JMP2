@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-data
+    
+server:
+   port: 8081
+  

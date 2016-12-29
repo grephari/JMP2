@@ -1,7 +1,6 @@
 package com.epam.jmp2.model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class RoadAccidentBuilder {
     String accidentId;

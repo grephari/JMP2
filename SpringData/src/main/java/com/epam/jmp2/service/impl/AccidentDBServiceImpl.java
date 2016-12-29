@@ -1,10 +1,7 @@
 package com.epam.jmp2.service.impl;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,17 +51,59 @@ public class AccidentDBServiceImpl implements AccidentService {
     	RoadSurfaceCondition rsfc = new RoadSurfaceCondition();
 		rsfc.setCode(label);
 		Iterable<Accident> list = accidentRepository.findByRoadSurfaceCondition(rsfc);
-        return list;
+		List<RoadAccident> roadAccidents = new ArrayList<RoadAccident>();
+		for(Accident ac : list){
+    		String dateArr[] = ac.getDate().split("/");
+    		String dateStr = dateArr[2] + "-" + (dateArr[1].length()==1?"0"+dateArr[1]:dateArr[1]) + "-" + (dateArr[0].length()==1?"0"+dateArr[0]:dateArr[0]);
+    		RoadAccidentBuilder rab = new RoadAccidentBuilder();
+    		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
+    		rab.withDate(LocalDate.parse(dateStr));
+    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().toString());
+    		rab.withLatitude(ac.getLatitude());
+    		rab.withLightConditions(ac.getLightCondition().getLabel());
+    		rab.withLongitude(ac.getLongitude());
+    		rab.withNumberOfCasualties(ac.getNumberOfCasualties());
+    		rab.withNumberOfVehicles(ac.getNumberOfVehicles());
+    		rab.withPoliceForce(ac.getPoliceForce().getLabel());
+    		rab.withRoadSurfaceConditions(ac.getRoadSurfaceCondition().getLabel());
+    		rab.withTime(ac.getTime());  		  		
+    		rab.withWeatherConditions(ac.getWeatherCondition().getLabel());
+    		RoadAccident ra = rab.build();
+    		ra.setAccidentId(ac.getAccidentIndex());
+    		roadAccidents.add(ra);    		
+    	}
+        return roadAccidents;
     }
 
     public Iterable getAllAccidentsByWeatherConditionAndYear(
             Integer weatherCondition, String year) {
     	WeatherCondition wc = new WeatherCondition();
     	wc.setCode(weatherCondition);
-    	Iterable<Accident> accidents = accidentRepository.findByWeatherCondition(wc).stream().filter(item -> item.getDate().contains(year))
+    	List<Accident> accidents = accidentRepository.findByWeatherCondition(wc).stream().filter(item -> item.getDate().contains(year))
     	                                             .collect(Collectors.toList());
+    	List<RoadAccident> roadAccidents = new ArrayList<RoadAccident>();
+		for(Accident ac : accidents){
+    		String dateArr[] = ac.getDate().split("/");
+    		String dateStr = dateArr[2] + "-" + (dateArr[1].length()==1?"0"+dateArr[1]:dateArr[1]) + "-" + (dateArr[0].length()==1?"0"+dateArr[0]:dateArr[0]);
+    		RoadAccidentBuilder rab = new RoadAccidentBuilder();
+    		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
+    		rab.withDate(LocalDate.parse(dateStr));
+    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().toString());
+    		rab.withLatitude(ac.getLatitude());
+    		rab.withLightConditions(ac.getLightCondition().getLabel());
+    		rab.withLongitude(ac.getLongitude());
+    		rab.withNumberOfCasualties(ac.getNumberOfCasualties());
+    		rab.withNumberOfVehicles(ac.getNumberOfVehicles());
+    		rab.withPoliceForce(ac.getPoliceForce().getLabel());
+    		rab.withRoadSurfaceConditions(ac.getRoadSurfaceCondition().getLabel());
+    		rab.withTime(ac.getTime());  		  		
+    		rab.withWeatherConditions(ac.getWeatherCondition().getLabel());
+    		RoadAccident ra = rab.build();
+    		ra.setAccidentId(ac.getAccidentIndex());
+    		roadAccidents.add(ra);    		
+    	}
         
-        return accidents;
+        return roadAccidents;
     }
 
     public Iterable<RoadAccident> getAllAccidentsByDate(String date) {
@@ -73,7 +112,7 @@ public class AccidentDBServiceImpl implements AccidentService {
     	List<RoadAccident> roadAccidents = new ArrayList<RoadAccident>();
     	for(Accident ac : accidents){
     		String dateArr[] = ac.getDate().split("/");
-    		String dateStr = dateArr[2] + "-" + (dateArr[0].length()==1?"0"+dateArr[0]:dateArr[0]) + "-" + (dateArr[1].length()==1?"0"+dateArr[1]:dateArr[1]);
+    		String dateStr = dateArr[2] + "-" + (dateArr[1].length()==1?"0"+dateArr[1]:dateArr[1]) + "-" + (dateArr[0].length()==1?"0"+dateArr[0]:dateArr[0]);
     		RoadAccidentBuilder rab = new RoadAccidentBuilder();
     		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
     		rab.withDate(LocalDate.parse(dateStr));
@@ -99,14 +138,16 @@ public class AccidentDBServiceImpl implements AccidentService {
     	String time = roadAccident.getTime();
     	String timeLabel = time;
     	if(time.contains(":")){
-    		int hour = Integer.valueOf(time.toString().split(":")[0]);   		
-        	if(hour>6 && hour<12){
+    		String[] timeArr = time.toString().split(":"); 
+    		int hour = Integer.valueOf(timeArr[0]); 
+    		int minute = Integer.valueOf(timeArr[1]); 
+        	if((hour>6 && hour<12) || (hour==6 && minute>0)){
         		timeLabel = "MORNING ";
-        	}else if(hour>12 && hour<18){
+        	}else if((hour>12 && hour<18) || (hour==12 && minute>0)){
         		timeLabel = "AFTERNOON";
-        	}else if(hour>18 && hour<24){
+        	}else if((hour>18 && hour<24) || (hour==18 && minute>0)){
         		timeLabel = "EVENING";
-        	}else if(hour>0 && hour<6){
+        	}else if((hour>0 && hour<6) || (hour==0 && minute>0)){
         		timeLabel = "NIGHT";
         	}
     	}    	
