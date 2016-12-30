@@ -55,8 +55,8 @@ public class DBInitializer {
 
             connection.prepareStatement("CREATE TEXT TABLE accidents(\n" +
                     "   Accident_Index             VARCHAR(20) NOT NULL PRIMARY KEY\n" +
-                    "  ,Longitude                  NUMERIC(10,20) NOT NULL\n" +
-                    "  ,Latitude                   NUMERIC(10,20) NOT NULL\n" +
+                    "  ,Longitude                  NUMERIC(20,10) NOT NULL\n" +
+                    "  ,Latitude                   NUMERIC(20,10) NOT NULL\n" +
                     "  ,Police_Force               INTEGER  NOT NULL\n" +
                     "  ,Accident_Severity          INTEGER  NOT NULL\n" +
                     "  ,Number_of_Vehicles         INTEGER  NOT NULL\n" +
@@ -69,6 +69,13 @@ public class DBInitializer {
                     "  ,Weather_Conditions         INTEGER  NOT NULL\n" +
                     "  ,Road_Surface_Conditions    INTEGER  NOT NULL\n" +
                     ");").execute();
+			/*
+			 * Change by Kevin: change declaration of "Longitude/Latitude" from "NUMERIC(10, 20)" to "NUMERIC(20,10)",
+			 * because in former case, the column(s) can have 20 digits while its column_size is 10; it's OK to import
+			 * from csv, but when try to update a record with Java-app or SQL, this exception will always be thrown:
+			 * 
+			 * numeric value out of range
+			 */
             connection.prepareStatement("SET TABLE accidents SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\DfTRoadSafety_Accidents_2009.csv;ignore_first=true\"").execute();
 
             // query from the db
