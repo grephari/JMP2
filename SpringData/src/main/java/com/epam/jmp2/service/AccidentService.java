@@ -1,6 +1,7 @@
 package com.epam.jmp2.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.model.RoadAccident;
@@ -22,5 +23,10 @@ public interface AccidentService {
 	Iterable<RoadAccident> getAllAccidentsByDate(Date date);
 
 	Boolean update(RoadAccident roadAccident);
+
+	Accident create(RoadAccident roadAccident);
+
+	/* @param page in case there are too many records.. */
+	List<Accident> findAll(int page);
 
 }

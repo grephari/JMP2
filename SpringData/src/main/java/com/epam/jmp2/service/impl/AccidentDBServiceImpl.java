@@ -9,10 +9,15 @@ import java.util.Optional;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import com.epam.jmp2.dbrepositories.AccidentRepository;
+import com.epam.jmp2.dbrepositories.AccidentSeverityRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
+import com.epam.jmp2.dbrepositories.LightConditionRepository;
+import com.epam.jmp2.dbrepositories.PoliceForceRepository;
+import com.epam.jmp2.dbrepositories.RoadSurfaceConditionRepository;
 import com.epam.jmp2.dbrepositories.WeatherConditionRepository;
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.entities.DistrictAuthority;
@@ -23,12 +28,20 @@ import com.epam.jmp2.util.DateTimeUtils;
 @Component
 public class AccidentDBServiceImpl implements AccidentService {
 
+	private static final int DEFAULT_PAGE_SIZE = 20;
+
 	@Autowired
 	private AccidentRepository accidentRepository;
-
+	@Autowired
+	private AccidentSeverityRepository accidentSeverityRepository;
 	@Autowired
 	private DistrictAuthorityRepository districtAuthorityRepository;
-
+	@Autowired
+	private LightConditionRepository lightConditionRepository;
+	@Autowired
+	private PoliceForceRepository policeForceRepository;
+	@Autowired
+	private RoadSurfaceConditionRepository roadSurfaceConditionRepository;
 	@Autowired
 	private WeatherConditionRepository weatherConditionRepository;
 
@@ -37,10 +50,17 @@ public class AccidentDBServiceImpl implements AccidentService {
 		return accident;
 	}
 
+	@Override
+	public List<Accident> findAll(int page) {
+		return accidentRepository.findAll(new PageRequest(page, DEFAULT_PAGE_SIZE)).getContent();
+	}
+
+	@Override
 	public Accident findOne(String accidentId) {
 		return accidentRepository.findOne(accidentId);
 	}
 
+	@Override
 	public RoadAccident getAccidentById(String accidentId) {
 		return accidentRepository.queryById(accidentId);
 	}
@@ -115,6 +135,36 @@ public class AccidentDBServiceImpl implements AccidentService {
 			return Boolean.FALSE;
 		}
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public Accident create(RoadAccident roadAccident) {
+		if (roadAccident == null || roadAccident.getAccidentId() == null) {
+			return null;
+		}
+		// Not handling duplicate-id issue for now...
+		// Accident accident = accidentRepository.findOne(roadAccident.getAccidentId());
+		// if (accident != null) {
+		// return null;
+		// }
+		Accident accident = new Accident();
+		accident.setAccidentIndex(roadAccident.getAccidentId());
+		accident.setDate(DateTimeUtils.formatLocalDate(LocalDate.now()));
+		accident.setDayOfWeek(LocalDate.now().getDayOfWeek().getValue());
+		accident.setLatitude(roadAccident.getLatitude());
+		accident.setLongitude(roadAccident.getLongitude());
+		accident.setNumberOfCasualties(roadAccident.getNumberOfCasualties());
+		accident.setNumberOfVehicles(roadAccident.getNumberOfVehicles());
+		accident.setTime(DateTimeUtils.formatLocalTime(LocalTime.now()));
+		// setting default values for NOT-NULL columns
+		accident.setAccidentSeverity(accidentSeverityRepository.findOne(1));
+		accident.setLocalDistrictAuthority(districtAuthorityRepository.findByCode(1));
+		accident.setLightCondition(lightConditionRepository.findOne(1));
+		accident.setPoliceForce(policeForceRepository.findOne(1));
+		accident.setRoadSurfaceCondition(roadSurfaceConditionRepository.findOne(1));
+		accident.setWeatherCondition(weatherConditionRepository.findOne(1));
+		accidentRepository.save(accident);
+		return accident;
 	}
 
 }

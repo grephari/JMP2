@@ -19,11 +19,6 @@ public class AccidentController {
 	@Autowired
 	private AccidentService service;
 
-	@RequestMapping("/index")
-	public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
-		return "Greetings.";
-	}
-
 	// GET http://localhost:8080/roadaccidentmgmt/accidents/200901BS70001
 	@RequestMapping("/accidents/{accidentId}")
 	public RoadAccident getAccidentById(@PathVariable(value = "accidentId") String accidentId) {
@@ -52,14 +47,26 @@ public class AccidentController {
 	}
 
 	// POST http://localhost:8080/roadaccidentmgmt/accidents/200901BS70001
-	// SAMPLE REQUEST BODY: 
-	//	 {"accidentId":"200901BS70001","longitude":30.1,"latitude":15.123,"numberOfVehicles":1,"numberOfCasualties":1}
+	// SAMPLE REQUEST BODY:
+	// {"accidentId":"200901BS70001","longitude":30.1,"latitude":15.123,"numberOfVehicles":1,"numberOfCasualties":1}
 	@RequestMapping(value = "/accidents/{accidentId}", method = RequestMethod.POST)
 	public RoadAccident updateAccident(@PathVariable("accidentId") String accidentId,
 			@RequestBody RoadAccident roadAccident) {
 		roadAccident.setAccidentId(accidentId);
 		service.update(roadAccident);
 		return service.getAccidentById(accidentId);
+	}
+
+	// POST http://localhost:8080/roadaccidentmgmt/accidents
+	// SAMPLE REQUEST BODY:
+	// {"accidentId":"200901BS70001","longitude":30.1,"latitude":15.123,"numberOfVehicles":1,"numberOfCasualties":1}
+	@RequestMapping(value = "/accidents", method = RequestMethod.POST)
+	public RoadAccident newAccident(@RequestBody RoadAccident roadAccident) {
+		if (roadAccident.getAccidentId() == null) {
+			throw new IllegalArgumentException("Accident ID should not be null");
+		}
+		service.create(roadAccident);
+		return service.getAccidentById(roadAccident.getAccidentId());
 	}
 
 }

@@ -12,13 +12,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoadAccident {
+
 	private String accidentId;
-	private float longitude;
-	private float latitude;
+	private Float longitude;
+	private Float latitude;
 	private String policeForce;
 	private String accidentSeverity;
-	private int numberOfVehicles;
-	private int numberOfCasualties;
+	private Integer numberOfVehicles;
+	private Integer numberOfCasualties;
 	private LocalDate date;
 	private LocalTime time;
 
@@ -26,10 +27,10 @@ public class RoadAccident {
 	 * Added by Kevin, for spring-date repository to initiate query results. @see
 	 * com.epam.jmp2.dbrepositories.AccidentRepository
 	 */
-	public RoadAccident(String accidentId, float longitude, float latitude, String policeForce,
-			String accidentSeverity, int numberOfVehicles, int numberOfCasualties, String strDate, String strTime,
-			int dayOfWeek, String districtAuthority, String lightConditions, String weatherConditions,
-			String roadSurfaceConditions) {
+	public RoadAccident(String accidentId, Float longitude, Float latitude, String policeForce,
+			String accidentSeverity, Integer numberOfVehicles, Integer numberOfCasualties, String strDate,
+			String strTime, Integer dayOfWeek, String districtAuthority, String lightConditions,
+			String weatherConditions, String roadSurfaceConditions) {
 		super();
 		this.accidentId = accidentId;
 		this.longitude = longitude;
@@ -84,19 +85,19 @@ public class RoadAccident {
 		this.accidentId = accidentId;
 	}
 
-	public float getLongitude() {
+	public Float getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(Float longitude) {
 		this.longitude = longitude;
 	}
 
-	public float getLatitude() {
+	public Float getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(Float latitude) {
 		this.latitude = latitude;
 	}
 
@@ -116,19 +117,19 @@ public class RoadAccident {
 		this.accidentSeverity = accidentSeverity;
 	}
 
-	public int getNumberOfVehicles() {
+	public Integer getNumberOfVehicles() {
 		return numberOfVehicles;
 	}
 
-	public void setNumberOfVehicles(int numberOfVehicles) {
+	public void setNumberOfVehicles(Integer numberOfVehicles) {
 		this.numberOfVehicles = numberOfVehicles;
 	}
 
-	public int getNumberOfCasualties() {
+	public Integer getNumberOfCasualties() {
 		return numberOfCasualties;
 	}
 
-	public void setNumberOfCasualties(int numberOfCasualties) {
+	public void setNumberOfCasualties(Integer numberOfCasualties) {
 		this.numberOfCasualties = numberOfCasualties;
 	}
 
@@ -185,14 +186,9 @@ public class RoadAccident {
 	}
 
 	public String toString() {
-    	return "RoadAccident:" +
-    			"\nid:" + this.accidentId +
-    			"\ndistrictAuthority:" + this.districtAuthority+
-    			"\npoliceForce:" + this.policeForce +
-    			"\nroadSurfaceConditions:" + this.roadSurfaceConditions +
-    			"\nweatherConditions:" + this.weatherConditions;
-    			
-    			
-    			
-    } 
+		return "RoadAccident:" + "\nid:" + this.accidentId + "\ndistrictAuthority:" + this.districtAuthority
+				+ "\npoliceForce:" + this.policeForce + "\nroadSurfaceConditions:" + this.roadSurfaceConditions
+				+ "\nweatherConditions:" + this.weatherConditions;
+
+	}
 }
