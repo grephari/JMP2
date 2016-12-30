@@ -1,0 +1,9 @@
+SpringData/.classpath
+SpringData/.gitignore
+SpringData/.project
+SpringData/.settings
+SpringData/jmpdb.tmp/
+SpringData/jmpdb.lck
+SpringData/jmpdb.log
+SpringData/jmpdb.properties
+SpringData/jmpdb.script
