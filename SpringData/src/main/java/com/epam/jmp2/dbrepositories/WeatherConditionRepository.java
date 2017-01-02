@@ -10,4 +10,6 @@ import com.epam.jmp2.model.RoadAccident;
 @Repository
 public interface WeatherConditionRepository extends CrudRepository<WeatherCondition,Integer>{
     Iterable<RoadAccident> findAccidentsByCode(String code);
+    
+    Iterable findAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year);
 }
