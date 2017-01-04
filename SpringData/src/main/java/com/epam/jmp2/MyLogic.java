@@ -2,16 +2,22 @@ package com.epam.jmp2;
 
 import java.sql.Connection;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.epam.jmp2.db.DBInitializer;
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.service.impl.AccidentDBServiceImpl;
 
+@SpringBootApplication
+@ImportResource({"classpath*:beans.xml"})
 public class MyLogic {
 	public static void main(String[] args) {
 		Connection connection = DBInitializer.initDatabase();
 		DBInitializer.setDataSources(connection);
+		SpringApplication.run(MyLogic.class, args);
 		// Acquire Context
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:beans.xml");
 		// Get RegistrationBean That Defined

@@ -20,6 +20,6 @@ public interface AccidentService {
     // scenario 4
     Iterable<RoadAccident> getAllAccidentsByDate(Date date);
 
-    Boolean update(RoadAccident roadAccident);
+    Accident update(RoadAccident roadAccident);
 
 }
