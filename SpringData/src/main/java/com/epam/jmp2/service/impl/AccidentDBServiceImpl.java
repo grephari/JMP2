@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.epam.jmp2.dbrepositories.AccidentRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
@@ -16,6 +19,7 @@ import com.epam.jmp2.model.RoadAccident;
 import com.epam.jmp2.service.AccidentService;
 
 @Component
+@RestController
 public class AccidentDBServiceImpl implements AccidentService {
 
     @Autowired
@@ -39,12 +43,12 @@ public class AccidentDBServiceImpl implements AccidentService {
     	DistrictAuthority accident = districtAuthorityRepository.findByCode(code);
         return accident;
     }
-
+    @RequestMapping(value = "/findOneByIndex/{indexId}",  method = RequestMethod.GET)
     public Accident findOne(String accidentId) {
     	Accident accident = accidentRepository.findOne(accidentId);
         return accident;
     }
-
+    @RequestMapping(value= "/getAccidentByRoadCondition/{indexId}", method = RequestMethod.GET)
     public Iterable getAllAccidentsByRoadCondition(Integer label) {
     	return accidentRepository.findAllAccidentsByRoadCondition(label);
         
@@ -55,6 +59,7 @@ public class AccidentDBServiceImpl implements AccidentService {
         	return	weatherConditionRepository.findAccidentsByWeatherConditionAndYear(weatherCondition, year);
     }
 
+    @RequestMapping(value= "/getAccidentByDate/{date}", method = RequestMethod.GET)
     public Iterable<RoadAccident> getAllAccidentsByDate(Date date) {
         return accidentRepository.findAccidentByDate(date);
 
