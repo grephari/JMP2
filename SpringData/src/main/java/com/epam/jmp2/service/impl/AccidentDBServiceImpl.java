@@ -9,7 +9,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.jmp2.dbrepositories.AccidentRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
@@ -33,6 +36,10 @@ public class AccidentDBServiceImpl implements AccidentService {
 
     public Accident findOne(String accidentId) {
         return accidentRepository.findOne(accidentId);
+    }
+    
+    public List<RoadAccident> findAll() {
+        return getRoadAccidentFromAccident(accidentRepository.findAll());
     }
     
     public Iterable<RoadAccident> getAllAccidentsByDate(String date) {
@@ -109,5 +116,23 @@ public class AccidentDBServiceImpl implements AccidentService {
         	}	
     	}
     	return accidentByWeatherConditionList;
+	}
+
+	@Override
+	public RoadAccident update(RoadAccident roadAccident) {
+		Accident accident = accidentRepository.findOne(roadAccident.getAccidentId());
+		accident.setAccidentIndex(roadAccident.getAccidentId());
+		accident.setAccidentSeverity(Integer.valueOf(roadAccident.getAccidentSeverity()));
+		accident.setLatitude(roadAccident.getLatitude());
+		accident.setLongitude(roadAccident.getLongitude());
+		accident.setNumberOfCasualties(roadAccident.getNumberOfCasualties());
+		Accident updatedAccident =  accidentRepository.save(accident);
+		List<Accident> updatedAccidentList = new ArrayList<>();
+		updatedAccidentList.add(updatedAccident);
+		return getRoadAccidentFromAccident(updatedAccidentList).get(0);
+    }
+
+	public void delete(String indexId) {
+		accidentRepository.deleteByAccidentIndex(indexId);
 	}
 }

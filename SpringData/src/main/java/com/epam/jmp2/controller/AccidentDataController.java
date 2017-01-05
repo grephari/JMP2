@@ -1,9 +1,12 @@
 package com.epam.jmp2.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +23,13 @@ public class AccidentDataController {
 	AccidentService accidentService;
 	
 	@RequestMapping(value = "/findOneByIndex/{indexId}",  method = RequestMethod.GET)
-	public Accident findOne(@PathVariable String indexId) {
+	public Accident findOne(@PathVariable String indexId) {	
 		return accidentService.findOne(indexId);
+	}
+	
+	@RequestMapping(value = "/accidents",  method = RequestMethod.GET)
+	public List<RoadAccident> findAll() {
+		return accidentService.findAll();
 	}
 
 	@RequestMapping(value = "/findAccidentDetailsByDate/{date}", method = RequestMethod.GET)
@@ -39,8 +47,19 @@ public class AccidentDataController {
 		return accidentService.getAllAccidentsByWeatherConditionAndYear(weatherCondition, year);
 	}
 	
-	@RequestMapping(value = "/updateTime", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateTime", method = RequestMethod.PUT)
 	public Iterable<RoadAccident> updateTimePeriod(@RequestParam("date") String date) throws ParseException {
 		return accidentService.updateTimePeriod(date);
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public RoadAccident update(@RequestBody RoadAccident accident) throws ParseException {
+		return accidentService.update(accident);
+	}
+	
+	@RequestMapping(value = "/deleteAccidentData/{indexId}", method = RequestMethod.DELETE)
+	public List<RoadAccident> deleteAccidentData(@PathVariable String indexId) throws ParseException {
+		accidentService.delete(indexId);
+		return accidentService.findAll();
 	}
 }

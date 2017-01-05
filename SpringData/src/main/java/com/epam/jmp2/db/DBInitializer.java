@@ -132,11 +132,11 @@ public class DBInitializer {
         hsqlServer = null;
     }
     
-    public static void main(String a[]) {
+/*    public static void main(String a[]) {
     	DBInitializer dbinit = new DBInitializer();
     	Connection connection = dbinit.initDatabase();
     	dbinit.initTablesFromFiles(connection);
-    }
+    }*/
 	
 
 }

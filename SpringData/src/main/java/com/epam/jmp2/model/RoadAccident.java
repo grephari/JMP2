@@ -4,6 +4,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.data.annotation.Transient;
+
 /**
  * Contains information about one road accident
  */
@@ -15,8 +17,8 @@ public class RoadAccident {
     private String accidentSeverity;
     private int numberOfVehicles;
     private int numberOfCasualties;
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
     private String year;
 
     public void setDayOfWeek(java.time.DayOfWeek dayOfWeek) {
@@ -41,16 +43,33 @@ public class RoadAccident {
         this.accidentSeverity = builder.accidentSeverity;
         this.numberOfVehicles = builder.numberOfVehicles;
         this.numberOfCasualties = builder.numberOfCasualties;
-        this.date = builder.date;
-        this.time = builder.time;
         this.districtAuthority = builder.districtAuthority;
         this.lightConditions = builder.lightConditions;
         this.weatherConditions = builder.weatherConditions;
         this.roadSurfaceConditions = builder.roadSurfaceConditions;
     }
-    
 
-    public String getYear() {
+    public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public DayOfWeek getDayOfWeek() {
+		return DayOfWeek;
+	}
+
+	public String getYear() {
 		return year;
 	}
 
@@ -112,26 +131,6 @@ public class RoadAccident {
 
     public void setNumberOfCasualties(int numberOfCasualties) {
         this.numberOfCasualties = numberOfCasualties;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return date.getDayOfWeek();
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 
     public String getDistrictAuthority() {
