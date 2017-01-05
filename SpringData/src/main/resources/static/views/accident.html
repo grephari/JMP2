@@ -1,0 +1,61 @@
+<div class="section">
+	<h3>{{headingTitle}}</h3>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Index</th>
+				<th>Police Force</th>
+				<th>Number of Casualties</th>
+				<th>Day of week</th>
+				<th>District Authority</th>
+				<th>Light Conditions</th>
+				<th>Weather conditions</th>
+				<th>Road surface condition</th>
+				<th>Longtitude</th>
+				<th>Latitude</th>
+				<th>Edit</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="accidentItem in accidentData.data | startFrom:currentPage*pageSize | limitTo:pageSize" ng-include="getTemplate(accidentItem)">
+			
+				<script type="text/ng-template" id="display">
+  			    <td>{{ accidentItem.accidentId }}</td>
+				<td>{{ accidentItem.policeForce }}</td>
+				<td>{{ accidentItem.numberOfCasualties }}</td>
+				<td>{{ accidentItem.dayOfWeek }}</td>
+				<td>{{ accidentItem.districtAuthority }}</td>
+				<td>{{ accidentItem.lightConditions }}</td>
+				<td>{{ accidentItem.weatherConditions }}</td>
+				<td>{{ accidentItem.roadSurfaceConditions }}</td>
+				<td>{{ accidentItem.longitude }}</td>
+				<td>{{ accidentItem.latitude }}</td>
+    			<td>
+    			 <button type="button" class="btn btn-primary" ng-click="editAccidentData(accidentItem)">Edit</button>
+     			 <button type="button" class="btn btn-danger" ng-click="deleteAccidentData(accidentItem)">Delete</button>
+   			    </td>
+   				</script>
+
+				<script type="text/ng-template" id="edit">
+				<td><input type="text" ng-model=accidentItem.accidentId class="form-control input-sm"/></td>
+    			<td><input type="text" ng-model=accidentItem.policeForce class="form-control input-sm"/></td>
+    			<td><input type="text" ng-model=accidentItem.numberOfCasualties class="form-control input-sm"/></td>
+    			<td><input type="text" ng-model=accidentItem.dayOfWeek class="form-control input-sm"/></td>
+				<td><input type="text" ng-model=accidentItem.districtAuthority class="form-control input-sm"/></td>
+				<td><input type="text" ng-model=accidentItem.lightConditions class="form-control input-sm"/></td>
+				<td><input type="text" ng-model=accidentItem.weatherConditions class="form-control input-sm"/></td>
+				<td><input type="text" ng-model=accidentItem.roadSurfaceConditions class="form-control input-sm"/></td>
+				<td><input type="text" ng-model=accidentItem.longitude class="form-control input-sm"/></td>
+				<td><input type="text" ng-model=accidentItem.latitude class="form-control input-sm"/></td>
+    			<td>
+     				<button type="button" class="btn btn-primary" ng-click="updateAccidentData(accidentItem)">Save</button>
+     				<button type="button" class="btn btn-danger" ng-click="reset()">Cancel</button>
+    			</td>
+   			</script>
+			</tr>
+		</tbody>
+	</table>
+	<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">PREVIOUS</button>
+	{{currentPage+1}}/{{numberOfPages()}}
+	<button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">NEXT</button>
+</div>
