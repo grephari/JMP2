@@ -4,6 +4,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.data.annotation.Transient;
+
 /**
  * Contains information about one road accident
  */
@@ -15,8 +17,9 @@ public class RoadAccident {
     private String accidentSeverity;
     private int numberOfVehicles;
     private int numberOfCasualties;
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
+    private String year;
 
     public void setDayOfWeek(java.time.DayOfWeek dayOfWeek) {
         DayOfWeek = dayOfWeek;
@@ -40,16 +43,41 @@ public class RoadAccident {
         this.accidentSeverity = builder.accidentSeverity;
         this.numberOfVehicles = builder.numberOfVehicles;
         this.numberOfCasualties = builder.numberOfCasualties;
-        this.date = builder.date;
-        this.time = builder.time;
         this.districtAuthority = builder.districtAuthority;
         this.lightConditions = builder.lightConditions;
         this.weatherConditions = builder.weatherConditions;
         this.roadSurfaceConditions = builder.roadSurfaceConditions;
     }
 
+    public String getDate() {
+		return date;
+	}
 
-    public String getAccidentId() {
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public DayOfWeek getDayOfWeek() {
+		return DayOfWeek;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getAccidentId() {
         return accidentId;
     }
 
@@ -105,26 +133,6 @@ public class RoadAccident {
         this.numberOfCasualties = numberOfCasualties;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return date.getDayOfWeek();
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
     public String getDistrictAuthority() {
         return districtAuthority;
     }
@@ -156,16 +164,22 @@ public class RoadAccident {
     public void setRoadSurfaceConditions(String roadSurfaceConditions) {
         this.roadSurfaceConditions = roadSurfaceConditions;
     }
+
+	@Override
+	public String toString() {
+		return "RoadAccident [accidentId=" + accidentId + ", "
+				+ "longitude=" + longitude + ", "
+				+ "latitude=" + latitude + ","
+				+ "policeForce=" + policeForce + ","
+				+ "accidentSeverity=" + accidentSeverity
+				+ ", numberOfVehicles=" + numberOfVehicles
+				+ ", numberOfCasualties=" + numberOfCasualties + ", date="
+				+ date + ", time=" + time + ", year=" + year + ", DayOfWeek="
+				+ DayOfWeek + ", districtAuthority=" + districtAuthority
+				+ ", lightConditions=" + lightConditions
+				+ ", weatherConditions=" + weatherConditions
+				+ ", roadSurfaceConditions=" + roadSurfaceConditions + "]";
+	}
     
-    public String toString() {
-    	return "RoadAccident:" +
-    			"\nid:" + this.accidentId +
-    			"\ndistrictAuthority:" + this.districtAuthority+
-    			"\npoliceForce:" + this.policeForce +
-    			"\nroadSurfaceConditions:" + this.roadSurfaceConditions +
-    			"\nweatherConditions:" + this.weatherConditions;
-    			
-    			
-    			
-    } 
+ 
 }

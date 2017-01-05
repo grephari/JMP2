@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "accidents")
@@ -34,7 +35,7 @@ public class Accident implements Serializable {
 	private Integer numberOfCasualties;
 	@Column(name = "Date", nullable = false)
 	// @Temporal(TemporalType.DATE)
-	private String Date;
+	private String date;
 	@Column(name = "Day_of_Week  ", nullable = false)
 	private Integer dayOfWeek;
 	@Column(name = "Time", nullable = false)
@@ -59,6 +60,17 @@ public class Accident implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Road_Surface_Conditions")
 	private RoadSurfaceCondition roadSurfaceCondition;
+	
+	@Transient
+	private String year;
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
 
 	public String getAccidentIndex() {
 		return accidentIndex;
@@ -117,11 +129,11 @@ public class Accident implements Serializable {
 	}
 
 	public String getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		date = date;
 	}
 
 	public Integer getDayOfWeek() {
