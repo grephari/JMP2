@@ -38,7 +38,7 @@ public class AccidentDBServiceImpl implements AccidentService {
 
     public Accident findOne(String accidentId) {
         // To be filled by mentee
-        return accident;
+        return accidentRepository.findOne(accidentId);
     }
 
     public Iterable getAllAccidentsByRoadCondition(Integer label) {

@@ -11,7 +11,7 @@ import com.epam.jmp2.service.impl.AccidentDBServiceImpl;
 public class MyLogic {
 	public static void main(String[] args) {
 		Connection connection = DBInitializer.initDatabase();
-		DBInitializer.setDataSources(connection);
+		DBInitializer.initTablesFromFiles(connection);
 		// Acquire Context
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:beans.xml");
 		// Get RegistrationBean That Defined
