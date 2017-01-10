@@ -16,7 +16,7 @@ public class RoadAccident {
     private int numberOfVehicles;
     private int numberOfCasualties;
     private LocalDate date;
-    private LocalTime time;
+    private String time;
 
     public void setDayOfWeek(java.time.DayOfWeek dayOfWeek) {
         DayOfWeek = dayOfWeek;
@@ -117,11 +117,11 @@ public class RoadAccident {
         return date.getDayOfWeek();
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -160,6 +160,7 @@ public class RoadAccident {
     public String toString() {
     	return "RoadAccident:" +
     			"\nid:" + this.accidentId +
+    			"\ntime:" + this.time.toString() +
     			"\ndistrictAuthority:" + this.districtAuthority+
     			"\npoliceForce:" + this.policeForce +
     			"\nroadSurfaceConditions:" + this.roadSurfaceConditions +

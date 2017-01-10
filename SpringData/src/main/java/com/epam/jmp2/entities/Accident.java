@@ -33,8 +33,8 @@ public class Accident implements Serializable {
 	@Column(name = "Number_of_Casualties", nullable = false)
 	private Integer numberOfCasualties;
 	@Column(name = "Date", nullable = false)
-	// @Temporal(TemporalType.DATE)
-	private String Date;
+	//@Temporal(TemporalType.DATE)
+	private String date;
 	@Column(name = "Day_of_Week  ", nullable = false)
 	private Integer dayOfWeek;
 	@Column(name = "Time", nullable = false)
@@ -117,11 +117,11 @@ public class Accident implements Serializable {
 	}
 
 	public String getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.date = date;
 	}
 
 	public Integer getDayOfWeek() {
@@ -150,8 +150,9 @@ public class Accident implements Serializable {
 
 	public String toString() {
 		return "Acccident:" + "\nid:" + this.accidentIndex +
+			   "\ndate:" + this.date +
 				// "\nroadSurfaceConditions:" + this.roadSurfaceCondition+
-				"\nweatherConditions:" + this.weatherCondition;
+				"\nweatherConditions:" + this.weatherCondition.getCode() + ":" + this.weatherCondition.getLabel();
 	}
 
 	public WeatherCondition getWeatherCondition() {

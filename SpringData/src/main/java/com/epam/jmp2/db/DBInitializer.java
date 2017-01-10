@@ -7,14 +7,13 @@ import java.sql.SQLException;
 
 import org.hsqldb.Server;
 
-public class DBInitializer {
-	
+public class DBInitializer{
+
     private static Server hsqlServer = null;
     private static Connection connection = null;
     
     public void initTablesFromFiles(Connection connection){
         try {
-        	
             String workingDir = System.getProperty("user.dir");
 
             connection.prepareStatement("CREATE TEXT TABLE accident_severity(\n" +
@@ -55,13 +54,13 @@ public class DBInitializer {
 
             connection.prepareStatement("CREATE TEXT TABLE accidents(\n" +
                     "   Accident_Index             VARCHAR(20) NOT NULL PRIMARY KEY\n" +
-                    "  ,Longitude                  NUMERIC(10,20) NOT NULL\n" +
-                    "  ,Latitude                   NUMERIC(10,20) NOT NULL\n" +
+                    "  ,Longitude                  NUMERIC(20,10) NOT NULL\n" +
+                    "  ,Latitude                   NUMERIC(20,10) NOT NULL\n" +
                     "  ,Police_Force               INTEGER  NOT NULL\n" +
                     "  ,Accident_Severity          INTEGER  NOT NULL\n" +
                     "  ,Number_of_Vehicles         INTEGER  NOT NULL\n" +
                     "  ,Number_of_Casualties       INTEGER  NOT NULL\n" +
-                    "  ,Date                       DATE  NOT NULL\n" +
+                    "  ,Date                       VARCHAR(15)  NOT NULL\n" +
                     "  ,Day_of_Week                INTEGER  NOT NULL\n" +
                     "  ,Time                       VARCHAR(15) NOT NULL\n" +
                     "  ,Local_Authority_District   INTEGER  NOT NULL\n" +
@@ -112,15 +111,14 @@ public class DBInitializer {
     
     public static void setDataSources(Connection connection) {
     	 try {
-      	 String workingDir = System.getProperty("user.dir");
-      	connection.prepareStatement("SET TABLE accident_severity SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\accident_severity.csv;ignore_first=true\"").execute();
+       String workingDir = System.getProperty("user.dir");      
        connection.prepareStatement("SET TABLE district_authority SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\district_authority.csv;ignore_first=true\"").execute();
+   	   connection.prepareStatement("SET TABLE accident_severity SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\accident_severity.csv;ignore_first=true\"").execute();
        connection.prepareStatement("SET TABLE light_condition SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\light_conditions.csv;ignore_first=true\"").execute();
        connection.prepareStatement("SET TABLE police_force SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\police_force.csv;ignore_first=true\"").execute();
        connection.prepareStatement("SET TABLE road_surface SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\road_surface.csv;ignore_first=true\"").execute();
        connection.prepareStatement("SET TABLE weather_conditions SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\weather_conditions.csv;ignore_first=true\"").execute();
        connection.prepareStatement("SET TABLE accidents SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\DfTRoadSafety_Accidents_2009.csv;ignore_first=true\"").execute();
- 
     	 } catch (SQLException e) {
               e.printStackTrace();
           }
@@ -131,11 +129,11 @@ public class DBInitializer {
         hsqlServer = null;
     }
     
-    public static void main(String a[]) {
-    	DBInitializer dbinit = new DBInitializer();
-    	Connection connection = dbinit.initDatabase();
-    	dbinit.initTablesFromFiles(connection);
-    }
-	
+//    public static void main(String a[]) {
+//    	DBInitializer dbinit = new DBInitializer();
+//    	Connection connection = dbinit.initDatabase();
+//    	dbinit.initTablesFromFiles(connection);
+//    	dbinit.stopDatabase();
+//    }
 
 }

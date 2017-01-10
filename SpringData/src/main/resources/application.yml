@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: spring-data
+  thymeleaf:
+    prefix: classpath:/static/html/
+    suffix: .html
+    
+server:
+   port: 8081 

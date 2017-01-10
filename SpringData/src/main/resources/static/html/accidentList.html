@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Accident List</title>
+<style type="text/css">
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 3px;
+}
+    </style>
+</head>
+<body>
+<h1>Accident List</h1>  
+<!-- 
+<div sec:authorize="isAuthenticated()">
+  This content is only shown to authenticated users.
+</div>
+<div sec:authorize="hasAuthority('ADMIN')">
+  This content is only shown to administrators.
+</div>
+<div sec:authorize="hasAuthority('USER')">
+  This content is only shown to users.
+</div>
+ -->
+   <table>
+                <thead>
+                <tr>
+                    <th>accidentId</th>
+                    <th>longitude</th>
+                    <th>latitude</th>
+                    <th>accidentSeverity</th>
+                    <th>numberOfVehicles</th>
+                    <th>numberOfCasualties</th>
+                    <th>date</th>
+                    <th>time</th>
+                    <th>dayOfWeek</th>
+                    <th>districtAuthority</th>
+                    <th>lightConditions</th>
+                    <th>weatherConditions</th>
+                    <th>roadSurfaceConditions</th>
+                    <th sec:authorize="hasAuthority('ADMIN')">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    <tr th:each="accident,iterStat : ${accidentList}" th:if="${iterStat.index} le 5">
+                        <td th:text="${accident.accidentId}"></td>
+                        <td th:text="${accident.longitude}"></td>
+                         <td th:text="${accident.latitude}"></td>
+                        <td th:text="${accident.accidentSeverity}"></td>
+                         <td th:text="${accident.numberOfVehicles}"></td>
+                        <td th:text="${accident.numberOfCasualties}"></td>
+                         <td th:text="${accident.date}"></td>
+                        <td th:text="${accident.time}"></td>
+                         <td th:text="${accident.DayOfWeek}"></td>
+                        <td th:text="${accident.districtAuthority}"></td>
+                        <td th:text="${accident.lightConditions}"></td>
+                        <td th:text="${accident.weatherConditions}"></td>
+                        <td th:text="${accident.weatherConditions}"></td>
+                        <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/webapp/add}">Add</a></td>
+                    </tr>   
+
+                </tbody>
+</table>
+</body>
+</html>
