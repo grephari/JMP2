@@ -1,5 +1,7 @@
 package com.epam.jmp2.service;
 
+import java.util.List;
+
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.model.RoadAccident;
 
@@ -18,5 +20,9 @@ public interface AccidentService {
     Iterable<RoadAccident> getAllAccidentsByDate(String date);
 
     Boolean update(RoadAccident roadAccident);
+    
+    public List<RoadAccident> getAllAccidents();
+    
+    public void saveAccident(Accident accident);
 
 }

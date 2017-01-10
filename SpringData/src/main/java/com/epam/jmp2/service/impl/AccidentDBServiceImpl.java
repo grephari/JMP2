@@ -58,7 +58,7 @@ public class AccidentDBServiceImpl implements AccidentService {
     		RoadAccidentBuilder rab = new RoadAccidentBuilder();
     		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
     		rab.withDate(LocalDate.parse(dateStr));
-    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().toString());
+    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().getLabel());
     		rab.withLatitude(ac.getLatitude());
     		rab.withLightConditions(ac.getLightCondition().getLabel());
     		rab.withLongitude(ac.getLongitude());
@@ -88,7 +88,7 @@ public class AccidentDBServiceImpl implements AccidentService {
     		RoadAccidentBuilder rab = new RoadAccidentBuilder();
     		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
     		rab.withDate(LocalDate.parse(dateStr));
-    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().toString());
+    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().getLabel());
     		rab.withLatitude(ac.getLatitude());
     		rab.withLightConditions(ac.getLightCondition().getLabel());
     		rab.withLongitude(ac.getLongitude());
@@ -116,7 +116,7 @@ public class AccidentDBServiceImpl implements AccidentService {
     		RoadAccidentBuilder rab = new RoadAccidentBuilder();
     		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
     		rab.withDate(LocalDate.parse(dateStr));
-    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().toString());
+    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().getLabel());
     		rab.withLatitude(ac.getLatitude());
     		rab.withLightConditions(ac.getLightCondition().getLabel());
     		rab.withLongitude(ac.getLongitude());
@@ -164,5 +164,38 @@ public class AccidentDBServiceImpl implements AccidentService {
 
 	public void setDistrictAuthorityRepository(DistrictAuthorityRepository districtAuthorityRepository) {
 		this.districtAuthorityRepository = districtAuthorityRepository;
+	}
+
+	@Override
+	public List<RoadAccident> getAllAccidents() {
+		List <Accident> accidents = accidentRepository.findAll();
+		List<RoadAccident> roadAccidents = new ArrayList<RoadAccident>();
+    	for(Accident ac : accidents){
+    		String dateArr[] = ac.getDate().split("/");
+    		String dateStr = dateArr[2] + "-" + (dateArr[1].length()==1?"0"+dateArr[1]:dateArr[1]) + "-" + (dateArr[0].length()==1?"0"+dateArr[0]:dateArr[0]);
+    		RoadAccidentBuilder rab = new RoadAccidentBuilder();
+    		rab.withAccidentSeverity(String.valueOf(ac.getAccidentSeverity()));
+    		rab.withDate(LocalDate.parse(dateStr));
+    		rab.withDistrictAuthority(ac.getLocalDistrictAuthority().getLabel());
+    		rab.withLatitude(ac.getLatitude());
+    		rab.withLightConditions(ac.getLightCondition().getLabel());
+    		rab.withLongitude(ac.getLongitude());
+    		rab.withNumberOfCasualties(ac.getNumberOfCasualties());
+    		rab.withNumberOfVehicles(ac.getNumberOfVehicles());
+    		rab.withPoliceForce(ac.getPoliceForce().getLabel());
+    		rab.withRoadSurfaceConditions(ac.getRoadSurfaceCondition().getLabel());
+    		rab.withTime(ac.getTime());  		  		
+    		rab.withWeatherConditions(ac.getWeatherCondition().getLabel());
+    		RoadAccident ra = rab.build();
+    		ra.setAccidentId(ac.getAccidentIndex());
+    		roadAccidents.add(ra);    		
+    	}
+        return roadAccidents;
+	}
+
+	@Override
+	public void saveAccident(Accident accident) {
+		accidentRepository.save(accident);
+		
 	}
 }
