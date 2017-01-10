@@ -25,6 +25,11 @@ public class RoadAccidentBuilder {
 
     public RoadAccidentBuilder() {
     }
+    
+    public RoadAccidentBuilder withAccidentId(String accidentId) {
+        this.accidentId = accidentId;
+        return this;
+    }
 
     public RoadAccidentBuilder withLongitude(float longitude) {
         this.longitude = longitude;
