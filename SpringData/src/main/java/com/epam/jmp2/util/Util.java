@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Util {
-	
+	 
 	public static String parseStringDateToGetYear(String date) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 		Date formatteddate = formatter.parse(date);
