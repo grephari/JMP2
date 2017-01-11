@@ -25,7 +25,7 @@ public class Accident implements Serializable {
 	private Float longitude;
 	@Column(name = "Latitude", nullable = false, length = 10)
 	private Float latitude;
-	
+
 	@Column(name = "Accident_Severity", nullable = false)
 	private Integer accidentSeverity;
 	@Column(name = "Number_of_Vehicles", nullable = false)
@@ -39,15 +39,16 @@ public class Accident implements Serializable {
 	private Integer dayOfWeek;
 	@Column(name = "Time", nullable = false)
 	private String Time;
-	
+	@Column(name = "Year", nullable = false)
+	private String year;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Local_Authority_District")
 	private DistrictAuthority localDistrictAuthority;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Police_Force")
 	private PoliceForce policeForce;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Light_Conditions")
 	private LightCondition lightCondition;
@@ -150,7 +151,7 @@ public class Accident implements Serializable {
 
 	public String toString() {
 		return "Acccident:" + "\nid:" + this.accidentIndex +
-				// "\nroadSurfaceConditions:" + this.roadSurfaceCondition+
+		// "\nroadSurfaceConditions:" + this.roadSurfaceCondition+
 				"\nweatherConditions:" + this.weatherCondition;
 	}
 
@@ -176,6 +177,14 @@ public class Accident implements Serializable {
 
 	public void setLocalDistrictAuthority(DistrictAuthority localDistrictAuthority) {
 		this.localDistrictAuthority = localDistrictAuthority;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 }
