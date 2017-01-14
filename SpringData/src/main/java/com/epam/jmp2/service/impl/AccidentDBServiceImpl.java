@@ -3,7 +3,10 @@ package com.epam.jmp2.service.impl;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import com.epam.jmp2.dbrepositories.AccidentRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
@@ -76,5 +79,15 @@ public class AccidentDBServiceImpl implements AccidentService {
 
 	public void setDistrictAuthorityRepository(DistrictAuthorityRepository districtAuthorityRepository) {
 		this.districtAuthorityRepository = districtAuthorityRepository;
+	}
+	
+	@Override
+	public RoadAccident getAccidentById(String accidentId) {
+		return accidentRepository.queryById(accidentId);
+	}
+	
+	@Override
+	public List<Accident> findAll(int page) {
+		return accidentRepository.findAll(new PageRequest(page, 15)).getContent();
 	}
 }

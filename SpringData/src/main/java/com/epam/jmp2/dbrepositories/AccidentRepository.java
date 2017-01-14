@@ -32,6 +32,9 @@ public interface AccidentRepository extends JpaRepository<Accident, String> {
 
 	@Query(value = Query_String + "where a.date = :accidentDate")
 	Iterable<RoadAccident> findByDate(@Param("accidentDate") String date);
+	
+	@Query(value = Query_String + "where a.accidentIndex=:accidentId")
+	RoadAccident queryById(@Param("accidentId") String accidentId);
 
 
 }
