@@ -17,7 +17,7 @@ public class MyLogic {
 		// Get RegistrationBean That Defined
 		AccidentDBServiceImpl registrationBean = (AccidentDBServiceImpl) context.getBean("accidentDBServiceImpl");
 
-		Accident accident = registrationBean.findOne("200901BS70001");
+		Accident accident = registrationBean.findOne("200901CP00133");
 		
 			System.out.println(accident.getAccidentIndex());
 			System.out.println(accident.getAccidentSeverity());
