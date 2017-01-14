@@ -1,0 +1,5 @@
+Accident_Index,Longitude,Latitude,Police_Force,Accident_Severity,Number_of_Vehicles,Number_of_Casualties,Acci_Date,Day_of_Week,Acci_Time,Local_Authority_(District),Light_Conditions,Weather_Conditions,Road_Surface_Conditions
+200901CP00133,-0.08903,51.513464,48,3,1,1,2009-05-12,4,8:55:00,570,1,1,1
+200901CW10877,-0.199064,51.526357,1,3,1,1,2009-05-13,4,14:35:00,1,1,1,1
+200901CW10879,-0.15769,51.512045,1,3,2,1,2009-05-23,4,18:14:00,1,1,1,1
+200901CW10901,-0.132304,51.49141,1,3,1,1,2009-05-26,4,18:13:00,1,1,1,2

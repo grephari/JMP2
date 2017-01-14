@@ -1,12 +1,10 @@
 package com.epam.jmp2.service.impl;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.epam.jmp2.dbrepositories.AccidentRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
 import com.epam.jmp2.entities.Accident;
@@ -37,32 +35,39 @@ public class AccidentDBServiceImpl implements AccidentService {
     }
 
     public Accident findOne(String accidentId) {
-        // To be filled by mentee
-        return accident;
+    	return accidentRepository.findOne(accidentId);
     }
 
-    public Iterable getAllAccidentsByRoadCondition(Integer label) {
-        // To be filled by mentee
-
-        return null;
+    public Iterable<RoadAccident> getAllAccidentsByRoadCondition(Integer label) {
+    	return accidentRepository.queryByRoadSurfaceCondition(label);
     }
 
-    public Iterable getAllAccidentsByWeatherConditionAndYear(
+    public Iterable<RoadAccident> getAllAccidentsByWeatherConditionAndYear(
             Integer weatherCondition, String year) {
 
-       // Iterable<RoadAccident> accidentByWeatherCondition = getAccidentRepository()
-               // .findAccidentsByWeatherConditionAndYear(weatherCondition, year);
-        return null;
+		return accidentRepository.queryByWeatherConditionAndYear(weatherCondition, year);
     }
 
     public Iterable<RoadAccident> getAllAccidentsByDate(Date date) {
-       // To be filled by mentee
-        return null;
+    	return accidentRepository.findByDate(new SimpleDateFormat("yyyy-MM-dd").format(date));
 
     }
     public Boolean update(RoadAccident roadAccident) {
-        // To be filled by mentee
-        return null;
+    	Accident accident = accidentRepository.findOne(roadAccident.getAccidentId());
+    	try {
+			accident.setDate(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(roadAccident.getDate()));
+			accident.setDayOfWeek(roadAccident.getDayOfWeek().getValue());
+			accident.setLatitude(roadAccident.getLatitude());
+			accident.setLongitude(roadAccident.getLongitude());
+			accident.setNumberOfCasualties(roadAccident.getNumberOfCasualties());
+			accident.setNumberOfVehicles(roadAccident.getNumberOfVehicles());
+			accident.setTime(DateTimeFormatter.ofPattern("H:mm").format(roadAccident.getTime()));
+			accidentRepository.save(accident);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
     }
 
 	public DistrictAuthorityRepository getDistrictAuthorityRepository() {

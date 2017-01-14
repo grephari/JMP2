@@ -26,19 +26,21 @@ public class Accident implements Serializable {
 	@Column(name = "Latitude", nullable = false, length = 10)
 	private Float latitude;
 	
-	@Column(name = "Accident_Severity", nullable = false)
-	private Integer accidentSeverity;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "Accident_Severity", nullable = false)
+	private AccidentSeverity accidentSeverity;
+	
 	@Column(name = "Number_of_Vehicles", nullable = false)
 	private Integer numberOfVehicles;
 	@Column(name = "Number_of_Casualties", nullable = false)
 	private Integer numberOfCasualties;
 	@Column(name = "Date", nullable = false)
 	// @Temporal(TemporalType.DATE)
-	private String Date;
-	@Column(name = "Day_of_Week  ", nullable = false)
+	private String date;
+	@Column(name = "Day_of_Week", nullable = false)
 	private Integer dayOfWeek;
 	@Column(name = "Time", nullable = false)
-	private String Time;
+	private String time;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Local_Authority_District")
@@ -92,11 +94,11 @@ public class Accident implements Serializable {
 		this.policeForce = policeForce;
 	}
 
-	public Integer getAccidentSeverity() {
+	public AccidentSeverity getAccidentSeverity() {
 		return accidentSeverity;
 	}
 
-	public void setAccidentSeverity(Integer accidentSeverity) {
+	public void setAccidentSeverity(AccidentSeverity accidentSeverity) {
 		this.accidentSeverity = accidentSeverity;
 	}
 
@@ -116,13 +118,7 @@ public class Accident implements Serializable {
 		this.numberOfCasualties = numberOfCasualties;
 	}
 
-	public String getDate() {
-		return Date;
-	}
-
-	public void setDate(String date) {
-		Date = date;
-	}
+	
 
 	public Integer getDayOfWeek() {
 		return dayOfWeek;
@@ -132,12 +128,20 @@ public class Accident implements Serializable {
 		this.dayOfWeek = dayOfWeek;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public String getTime() {
-		return Time;
+		return time;
 	}
 
 	public void setTime(String time) {
-		Time = time;
+		this.time = time;
 	}
 
 	public LightCondition getLightCondition() {

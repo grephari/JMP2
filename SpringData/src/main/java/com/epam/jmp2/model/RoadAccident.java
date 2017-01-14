@@ -3,6 +3,7 @@ package com.epam.jmp2.model;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Contains information about one road accident
@@ -19,17 +20,19 @@ public class RoadAccident {
     private LocalTime time;
 
     public void setDayOfWeek(java.time.DayOfWeek dayOfWeek) {
-        DayOfWeek = dayOfWeek;
+        this.dayOfWeek = dayOfWeek;
     }
 
-    private DayOfWeek DayOfWeek;
+    private DayOfWeek dayOfWeek;
     private String districtAuthority;
     private String lightConditions;
     private String weatherConditions;
     private String roadSurfaceConditions;
 
-
-    public RoadAccident() {
+	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");
+    
+	public RoadAccident() {
     }
 
     RoadAccident(RoadAccidentBuilder builder){
@@ -168,4 +171,24 @@ public class RoadAccident {
     			
     			
     } 
+    
+    public RoadAccident(String accidentId, float longitude, float latitude, String policeForce,
+			String accidentSeverity, int numberOfVehicles, int numberOfCasualties, String strDate, String strTime,
+			int dayOfWeek, String districtAuthority, String lightConditions, String weatherConditions,
+			String roadSurfaceConditions) {
+		this.accidentId = accidentId;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.policeForce = policeForce;
+		this.accidentSeverity = accidentSeverity;
+		this.numberOfVehicles = numberOfVehicles;
+		this.numberOfCasualties = numberOfCasualties;
+		this.date = LocalDate.parse(strDate, dateFormatter);
+		this.time = LocalTime.parse(strTime, timeFormatter);
+		this.dayOfWeek = DayOfWeek.of(dayOfWeek);
+		this.districtAuthority = districtAuthority;
+		this.lightConditions = lightConditions;
+		this.weatherConditions = weatherConditions;
+		this.roadSurfaceConditions = roadSurfaceConditions;
+	}
 }
