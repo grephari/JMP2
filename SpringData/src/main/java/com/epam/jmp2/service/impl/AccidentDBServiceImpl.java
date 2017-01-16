@@ -1,7 +1,12 @@
 package com.epam.jmp2.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +16,9 @@ import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
 import com.epam.jmp2.dbrepositories.RoadAccidentRepository;
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.entities.DistrictAuthority;
+import com.epam.jmp2.entities.WeatherCondition;
 import com.epam.jmp2.model.RoadAccident;
+import com.epam.jmp2.model.RoadAccidentBuilder;
 import com.epam.jmp2.service.AccidentService;
 
 @Component
@@ -47,22 +54,42 @@ public class AccidentDBServiceImpl implements AccidentService {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Iterable getAllAccidentsByRoadCondition(Integer label) {
 		Iterable<Accident> accidents = accidentRepository.findByRoadSurfaceCondition(label);
-
 		return accidents;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Iterable getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year) {
-		//
-		// Iterable<RoadAccident> accidentByWeatherCondition =
-		// getAccidentRepository()
-		// .findAccidentsByWeatherConditionAndYear(weatherCondition, year);
-		Iterable<Accident> accidents = accidentRepository.findByWeatherConditionAndYear(weatherCondition, year);
-		return accidents;
+		WeatherCondition condition = new WeatherCondition();
+		condition.setCode(weatherCondition);
+		return accidentRepository.findByWeatherCondition(condition).stream().filter(acc -> acc.getDate().contains(year))
+				.collect(Collectors.toList());
 	}
 
 	public Iterable<RoadAccident> getAllAccidentsByDate(Date date) {
-		List<RoadAccident> roadAccidents = roadAccidentRepository.findByDate(date);
+		// List<RoadAccident> roadAccidents =
+		// roadAccidentRepository.findByDate(date);
+		// return roadAccidents;
+		List<Accident> accidents = accidentRepository.findByDate(date);
+		List<RoadAccident> roadAccidents = new ArrayList<RoadAccident>();
+		for (Accident accident : accidents) {
+			RoadAccidentBuilder roadAccidentBuilder = new RoadAccidentBuilder(accident.getAccidentIndex());
+			roadAccidentBuilder.withLongitude(accident.getLongitude());
+			roadAccidentBuilder.withLatitude(accident.getLatitude());
+			roadAccidentBuilder.withPoliceForce(accident.getPoliceForce().getLabel());
+			roadAccidentBuilder.withAccidentSeverity(accident.getAccidentSeverity().toString());
+			roadAccidentBuilder.withNumberOfVehicles(accident.getNumberOfVehicles());
+			roadAccidentBuilder.withNumberOfCasualties(accident.getNumberOfCasualties());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			roadAccidentBuilder.withDate(LocalDate.parse(accident.getDate(), formatter));
+			roadAccidentBuilder.withTime(LocalTime.parse(accident.getTime()));
+			roadAccidentBuilder.withDistrictAuthority(accident.getLocalDistrictAuthority().getLabel());
+			roadAccidentBuilder.withLightConditions(accident.getLightCondition().getLabel());
+			roadAccidentBuilder.withWeatherConditions(accident.getWeatherCondition().getLabel());
+			roadAccidentBuilder.withRoadSurfaceConditions(accident.getRoadSurfaceCondition().getLabel());
+
+			RoadAccident newRoadAccident = roadAccidentBuilder.build();
+			roadAccidents.add(newRoadAccident);
+		}
 		return roadAccidents;
 
 	}

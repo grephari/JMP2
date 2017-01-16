@@ -1,0 +1,39 @@
+/*C1*/SET SCHEMA SYSTEM_LOBS
+INSERT INTO BLOCKS VALUES(0,2147483647,0)
+COMMIT
+/*C2*/SET SCHEMA PUBLIC
+CREATE TEXT TABLE accident_severity(\u000a   code  INTEGER  NOT NULL PRIMARY KEY \u000a  ,label VARCHAR(70) NOT NULL\u000a)
+SET TABLE accident_severity SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\accident_severity.csv;ignore_first=true"
+CREATE TEXT TABLE district_authority(\u000a   code  INTEGER  NOT NULL PRIMARY KEY \u000a  ,label VARCHAR(70) NOT NULL\u000a)
+SET TABLE district_authority SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\district_authority.csv;ignore_first=true"
+CREATE TEXT TABLE light_condition(\u000a   code  INTEGER  NOT NULL PRIMARY KEY \u000a  ,label VARCHAR(70) NOT NULL\u000a)
+SET TABLE light_condition SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\light_conditions.csv;ignore_first=true"
+CREATE TEXT TABLE police_force(\u000a   code  INTEGER  NOT NULL PRIMARY KEY \u000a  ,label VARCHAR(70) NOT NULL\u000a)
+SET TABLE police_force SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\police_force.csv;ignore_first=true"
+CREATE TEXT TABLE road_surface(\u000a   code  INTEGER  NOT NULL PRIMARY KEY \u000a  ,label VARCHAR(70) NOT NULL\u000a)
+SET TABLE road_surface SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\road_surface.csv;ignore_first=true"
+CREATE TEXT TABLE weather_conditions(\u000a   code  INTEGER  NOT NULL PRIMARY KEY \u000a  ,label VARCHAR(70) NOT NULL\u000a)
+SET TABLE weather_conditions SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\weather_conditions.csv;ignore_first=true"
+CREATE TEXT TABLE accidents(\u000a   Accident_Index             VARCHAR(20) NOT NULL PRIMARY KEY\u000a  ,Longitude                  NUMERIC(10,20) NOT NULL\u000a  ,Latitude                   NUMERIC(10,20) NOT NULL\u000a  ,Police_Force               INTEGER  NOT NULL\u000a  ,Accident_Severity          INTEGER  NOT NULL\u000a  ,Number_of_Vehicles         INTEGER  NOT NULL\u000a  ,Number_of_Casualties       INTEGER  NOT NULL\u000a  ,Date                       DATE  NOT NULL\u000a  ,Day_of_Week                INTEGER  NOT NULL\u000a  ,Time                       VARCHAR(15) NOT NULL\u000a  ,Local_Authority_District   INTEGER  NOT NULL\u000a  ,Light_Conditions           INTEGER  NOT NULL\u000a  ,Weather_Conditions         INTEGER  NOT NULL\u000a  ,Road_Surface_Conditions    INTEGER  NOT NULL\u000a)
+SET TABLE accidents SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\DfTRoadSafety_Accidents_2009.csv;ignore_first=true"
+/*C3*/SET SCHEMA PUBLIC
+SET TABLE accident_severity SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\accident_severity.csv;ignore_first=true"
+SET TABLE district_authority SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\district_authority.csv;ignore_first=true"
+SET TABLE light_condition SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\light_conditions.csv;ignore_first=true"
+SET TABLE police_force SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\police_force.csv;ignore_first=true"
+SET TABLE road_surface SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\road_surface.csv;ignore_first=true"
+SET TABLE weather_conditions SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\weather_conditions.csv;ignore_first=true"
+SET TABLE accidents SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\DfTRoadSafety_Accidents_2009.csv;ignore_first=true"
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C3*/DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+SET TABLE accident_severity SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\accident_severity.csv;ignore_first=true"
+SET TABLE district_authority SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\district_authority.csv;ignore_first=true"
+SET TABLE light_condition SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\light_conditions.csv;ignore_first=true"
+SET TABLE police_force SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\police_force.csv;ignore_first=true"
+SET TABLE road_surface SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\road_surface.csv;ignore_first=true"
+SET TABLE weather_conditions SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\weather_conditions.csv;ignore_first=true"
+SET TABLE accidents SOURCE "D:\Java\java-mentoring-program\JMP2\SpringData\src\main\resources\data\DfTRoadSafety_Accidents_2009.csv;ignore_first=true"
+/*C6*/SET SCHEMA PUBLIC
+DISCONNECT
