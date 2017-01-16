@@ -55,13 +55,13 @@ public class DBInitializer {
 
             connection.prepareStatement("CREATE TEXT TABLE accidents(\n" +
                     "   Accident_Index             VARCHAR(20) NOT NULL PRIMARY KEY\n" +
-                    "  ,Longitude                  NUMERIC(10,20) NOT NULL\n" +
-                    "  ,Latitude                   NUMERIC(10,20) NOT NULL\n" +
+                    "  ,Longitude                  NUMERIC(20,10) NOT NULL\n" +
+                    "  ,Latitude                   NUMERIC(20,10) NOT NULL\n" +
                     "  ,Police_Force               INTEGER  NOT NULL\n" +
                     "  ,Accident_Severity          INTEGER  NOT NULL\n" +
                     "  ,Number_of_Vehicles         INTEGER  NOT NULL\n" +
                     "  ,Number_of_Casualties       INTEGER  NOT NULL\n" +
-                    "  ,Date                       DATE  NOT NULL\n" +
+                    "  ,Date                       VARCHAR(20)  NOT NULL\n" +
                     "  ,Day_of_Week                INTEGER  NOT NULL\n" +
                     "  ,Time                       VARCHAR(15) NOT NULL\n" +
                     "  ,Local_Authority_District   INTEGER  NOT NULL\n" +
@@ -131,11 +131,11 @@ public class DBInitializer {
         hsqlServer = null;
     }
     
-    public static void main(String a[]) {
-    	DBInitializer dbinit = new DBInitializer();
-    	Connection connection = dbinit.initDatabase();
-    	dbinit.initTablesFromFiles(connection);
-    }
+//    public static void main(String a[]) {
+//    	DBInitializer dbinit = new DBInitializer();
+//    	Connection connection = dbinit.initDatabase();
+//    	dbinit.initTablesFromFiles(connection);
+//    }
 	
 
 }

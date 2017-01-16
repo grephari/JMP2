@@ -34,7 +34,7 @@ public class Accident implements Serializable {
 	private Integer numberOfCasualties;
 	@Column(name = "Date", nullable = false)
 	// @Temporal(TemporalType.DATE)
-	private String Date;
+	private String date;
 	@Column(name = "Day_of_Week  ", nullable = false)
 	private Integer dayOfWeek;
 	@Column(name = "Time", nullable = false)
@@ -117,11 +117,11 @@ public class Accident implements Serializable {
 	}
 
 	public String getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.date = date;
 	}
 
 	public Integer getDayOfWeek() {
