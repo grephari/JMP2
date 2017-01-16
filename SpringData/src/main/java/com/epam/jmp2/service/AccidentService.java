@@ -12,10 +12,10 @@ public interface AccidentService {
     Accident findOne(String accidentId);
 
     // scenario 2
-    Iterable<RoadAccident> getAllAccidentsByRoadCondition(Integer label);
+    Iterable<Accident> getAllAccidentsByRoadCondition(Integer label);
 
     // scenario 3
-    Iterable<RoadAccident> getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year);
+    Iterable<Accident> getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year);
 
     // scenario 4
     Iterable<RoadAccident> getAllAccidentsByDate(Date date);
