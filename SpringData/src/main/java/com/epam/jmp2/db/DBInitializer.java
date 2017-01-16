@@ -12,48 +12,48 @@ public class DBInitializer {
     private static Server hsqlServer = null;
     private static Connection connection = null;
     
-    public void initTablesFromFiles(Connection connection){
+    public static void initTablesFromFiles(Connection connection){
         try {
         	
             String workingDir = System.getProperty("user.dir");
 
-            connection.prepareStatement("CREATE TEXT TABLE accident_severity(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS accident_severity(\n" +
                     "   code  INTEGER  NOT NULL PRIMARY KEY \n" +
                     "  ,label VARCHAR(70) NOT NULL\n" +
                     ");").execute();
             connection.prepareStatement("SET TABLE accident_severity SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\accident_severity.csv;ignore_first=true\"").execute();
 
-            connection.prepareStatement("CREATE TEXT TABLE district_authority(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS district_authority(\n" +
                     "   code  INTEGER  NOT NULL PRIMARY KEY \n" +
                     "  ,label VARCHAR(70) NOT NULL\n" +
                     ");").execute();
             connection.prepareStatement("SET TABLE district_authority SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\district_authority.csv;ignore_first=true\"").execute();
 
-            connection.prepareStatement("CREATE TEXT TABLE light_condition(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS light_condition(\n" +
                     "   code  INTEGER  NOT NULL PRIMARY KEY \n" +
                     "  ,label VARCHAR(70) NOT NULL\n" +
                     ");").execute();
             connection.prepareStatement("SET TABLE light_condition SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\light_conditions.csv;ignore_first=true\"").execute();
 
-            connection.prepareStatement("CREATE TEXT TABLE police_force(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS police_force(\n" +
                     "   code  INTEGER  NOT NULL PRIMARY KEY \n" +
                     "  ,label VARCHAR(70) NOT NULL\n" +
                     ");").execute();
             connection.prepareStatement("SET TABLE police_force SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\police_force.csv;ignore_first=true\"").execute();
 
-            connection.prepareStatement("CREATE TEXT TABLE road_surface(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS road_surface(\n" +
                     "   code  INTEGER  NOT NULL PRIMARY KEY \n" +
                     "  ,label VARCHAR(70) NOT NULL\n" +
                     ");").execute();
             connection.prepareStatement("SET TABLE road_surface SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\road_surface.csv;ignore_first=true\"").execute();
 
-            connection.prepareStatement("CREATE TEXT TABLE weather_conditions(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS weather_conditions(\n" +
                     "   code  INTEGER  NOT NULL PRIMARY KEY \n" +
                     "  ,label VARCHAR(70) NOT NULL\n" +
                     ");").execute();
             connection.prepareStatement("SET TABLE weather_conditions SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\weather_conditions.csv;ignore_first=true\"").execute();
 
-            connection.prepareStatement("CREATE TEXT TABLE accidents(\n" +
+            connection.prepareStatement("CREATE TEXT TABLE IF NOT EXISTS accidents(\n" +
                     "   Accident_Index             VARCHAR(20) NOT NULL PRIMARY KEY\n" +
                     "  ,Longitude                  NUMERIC(10,20) NOT NULL\n" +
                     "  ,Latitude                   NUMERIC(10,20) NOT NULL\n" +
@@ -110,22 +110,6 @@ public class DBInitializer {
        // end of stub code for in/out stub
     }
     
-    public static void setDataSources(Connection connection) {
-    	 try {
-      	 String workingDir = System.getProperty("user.dir");
-      	connection.prepareStatement("SET TABLE accident_severity SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\accident_severity.csv;ignore_first=true\"").execute();
-       connection.prepareStatement("SET TABLE district_authority SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\district_authority.csv;ignore_first=true\"").execute();
-       connection.prepareStatement("SET TABLE light_condition SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\light_conditions.csv;ignore_first=true\"").execute();
-       connection.prepareStatement("SET TABLE police_force SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\police_force.csv;ignore_first=true\"").execute();
-       connection.prepareStatement("SET TABLE road_surface SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\road_surface.csv;ignore_first=true\"").execute();
-       connection.prepareStatement("SET TABLE weather_conditions SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\weather_conditions.csv;ignore_first=true\"").execute();
-       connection.prepareStatement("SET TABLE accidents SOURCE \"" + workingDir +"\\src\\main\\resources\\data\\DfTRoadSafety_Accidents_2009.csv;ignore_first=true\"").execute();
- 
-    	 } catch (SQLException e) {
-              e.printStackTrace();
-          }
-      }
-
     public void stopDatabase(){
         hsqlServer.stop();
         hsqlServer = null;
@@ -136,6 +120,11 @@ public class DBInitializer {
     	Connection connection = dbinit.initDatabase();
     	dbinit.initTablesFromFiles(connection);
     }
+
+	public static void setDataSources(Connection connection2) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
