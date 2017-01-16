@@ -1,5 +1,6 @@
 package com.epam.jmp2.model;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,6 +18,7 @@ public class RoadAccidentBuilder {
     String lightConditions;
     String weatherConditions;
     String roadSurfaceConditions;
+    DayOfWeek DayOfWeek;
 
 
     public RoadAccidentBuilder(String accidentId){
@@ -60,6 +62,11 @@ public class RoadAccidentBuilder {
         this.date = date;
         return this;
     }
+    
+    public RoadAccidentBuilder withDayOfWeek(DayOfWeek DayOfWeek) {
+        this.DayOfWeek = DayOfWeek;
+        return this;
+    }
 
     public RoadAccidentBuilder withTime(LocalTime time) {
         this.time = time;
@@ -89,4 +96,6 @@ public class RoadAccidentBuilder {
     public RoadAccident build(){
         return new RoadAccident(this);
     }
+    
+    
 }
