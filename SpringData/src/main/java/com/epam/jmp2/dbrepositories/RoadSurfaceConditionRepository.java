@@ -9,5 +9,5 @@ import com.epam.jmp2.model.RoadAccident;
 
 @Repository
 public interface RoadSurfaceConditionRepository extends CrudRepository<RoadSurfaceCondition,Integer>{
-    Iterable<RoadAccident> getAllAccidentsByLabel(String label);
+    Iterable<RoadAccident> getAllAccidentsByCode(Integer code);
 }
