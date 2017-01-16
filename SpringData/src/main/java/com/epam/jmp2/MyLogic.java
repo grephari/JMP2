@@ -3,15 +3,19 @@ package com.epam.jmp2;
 import java.sql.Connection;
 import java.text.ParseException;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.epam.jmp2.db.DBInitializer;
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.model.RoadAccident;
 import com.epam.jmp2.service.impl.AccidentDBServiceImpl;
-
+@SpringBootApplication
+@ImportResource({"classpath*:beans.xml"})
 public class MyLogic {
-		
+
+	
 	public static void main(String[] args) throws ParseException {
 		
 		Connection connection = DBInitializer.initDatabase();
