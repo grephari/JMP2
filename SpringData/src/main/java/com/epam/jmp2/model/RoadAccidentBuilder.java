@@ -8,7 +8,7 @@ public class RoadAccidentBuilder {
     float longitude;
     float latitude;
     String policeForce;
-    String accidentSeverity;
+    int accidentSeverity;
     int numberOfVehicles;
     int numberOfCasualties;
     LocalDate date;
@@ -41,7 +41,7 @@ public class RoadAccidentBuilder {
         return this;
     }
 
-    public RoadAccidentBuilder withAccidentSeverity(String accidentSeverity) {
+    public RoadAccidentBuilder withAccidentSeverity(int accidentSeverity) {
         this.accidentSeverity = accidentSeverity;
         return this;
     }

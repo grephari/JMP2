@@ -1,7 +1,5 @@
 package com.epam.jmp2.service;
 
-import java.util.Date;
-
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.model.RoadAccident;
 
@@ -18,7 +16,7 @@ public interface AccidentService {
     Iterable<RoadAccident> getAllAccidentsByWeatherConditionAndYear(Integer weatherCondition, String year);
 
     // scenario 4
-    Iterable<RoadAccident> getAllAccidentsByDate(Date date);
+    Iterable<RoadAccident> getAllAccidentsByDate(String date);
 
     Boolean update(RoadAccident roadAccident);
 
