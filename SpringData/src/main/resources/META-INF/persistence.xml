@@ -11,6 +11,7 @@
         <class>com.epam.jmp2.entities.LightCondition</class>
         <class>com.epam.jmp2.entities.PoliceForce</class>
         <class>com.epam.jmp2.entities.DistrictAuthority</class>
+        <class>com.epam.jmp2.entities.AccidentSeverity</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost/jmp" />
             <property name="javax.persistence.jdbc.user" value="sa" />

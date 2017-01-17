@@ -93,14 +93,14 @@ public class DBInitializer {
         hsqlServer.setLogWriter(null);
         hsqlServer.setSilent(true);
         hsqlServer.setDatabaseName(0, "jmp");
-        hsqlServer.setDatabasePath(0, "file:jmpdb");
+        hsqlServer.setDatabasePath(0, "file:C:\\sers\\bhaga\\Desktop\\testdb");
 
         hsqlServer.start();
 
         // making a connection
         try {
             Class.forName("org.hsqldb.jdbcDriver");
-            connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/jmp", "sa", ""); // can through sql exception
+            connection = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/jmp", "SA", "SA"); // can through sql exception
         } catch (SQLException e2) {
             e2.printStackTrace();
         } catch (ClassNotFoundException e2) {
@@ -123,6 +123,7 @@ public class DBInitializer {
  
     	 } catch (SQLException e) {
               e.printStackTrace();
+              
           }
       }
 

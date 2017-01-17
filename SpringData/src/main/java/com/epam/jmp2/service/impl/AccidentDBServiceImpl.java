@@ -9,9 +9,12 @@ import org.springframework.stereotype.Component;
 
 import com.epam.jmp2.dbrepositories.AccidentRepository;
 import com.epam.jmp2.dbrepositories.DistrictAuthorityRepository;
+import com.epam.jmp2.dbrepositories.RoadSurfaceConditionRepository;
 import com.epam.jmp2.entities.Accident;
 import com.epam.jmp2.entities.DistrictAuthority;
+import com.epam.jmp2.entities.WeatherCondition;
 import com.epam.jmp2.model.RoadAccident;
+import com.epam.jmp2.model.RoadAccidentBuilder;
 import com.epam.jmp2.service.AccidentService;
 
 @Component
@@ -22,6 +25,9 @@ public class AccidentDBServiceImpl implements AccidentService {
     
     @Autowired
     private DistrictAuthorityRepository districtAuthorityRepository;
+    
+    @Autowired
+    private RoadSurfaceConditionRepository roadSurfaceConditionRepo; 
 
     public AccidentRepository getAccidentRepository() {
         return accidentRepository;
@@ -37,32 +43,50 @@ public class AccidentDBServiceImpl implements AccidentService {
     }
 
     public Accident findOne(String accidentId) {
-        // To be filled by mentee
-        return accident;
+    	return accidentRepository.findOne(accidentId);
     }
 
-    public Iterable getAllAccidentsByRoadCondition(Integer label) {
-        // To be filled by mentee
-
-        return null;
+    public Iterable<RoadAccident> getAllAccidentsByRoadCondition(Integer label) {    	
+    	return roadSurfaceConditionRepo.getAllAccidentsByCode(label);
     }
 
     public Iterable getAllAccidentsByWeatherConditionAndYear(
             Integer weatherCondition, String year) {
-
-       // Iterable<RoadAccident> accidentByWeatherCondition = getAccidentRepository()
-               // .findAccidentsByWeatherConditionAndYear(weatherCondition, year);
-        return null;
+    	WeatherCondition weather = new WeatherCondition();
+    	weather.setCode(weatherCondition);
+    	return accidentRepository.findByWeatherConditionAndDateContaining(weather, year);        
     }
 
-    public Iterable<RoadAccident> getAllAccidentsByDate(Date date) {
-       // To be filled by mentee
-        return null;
+    public Iterable<RoadAccident> getAllAccidentsByDate(String date) {
+    	List<Accident> dbData = accidentRepository.findAllByDate(date);
+    	List<RoadAccident> result = new ArrayList<>();
+    	for(Accident acc : dbData){
+    		RoadAccidentBuilder b = new RoadAccidentBuilder()
+    				.withAccidentSeverity(acc.getAccidentSeverity().getCode())
+    				.withDistrictAuthority(acc.getLocalDistrictAuthority().getLabel())
+    				.withLightConditions(acc.getLightCondition().getLabel())
+    				.withPoliceForce(acc.getPoliceForce().getLabel())
+    				.withWeatherConditions(acc.getWeatherCondition().getLabel());
+
+    		RoadAccident rd = new RoadAccident(b);
+    		result.add(rd) ;   		
+    	}
+    	
+        return result;
 
     }
     public Boolean update(RoadAccident roadAccident) {
-        // To be filled by mentee
-        return null;
+    	Accident a = new Accident();
+    	a.setAccidentIndex(roadAccident.getAccidentId());    	
+    	a.setDate(roadAccident.getDate().toString());
+    	a.setDayOfWeek(roadAccident.getDayOfWeek().getValue());
+    	a.setLongitude(roadAccident.getLongitude());
+    	a.setLatitude(roadAccident.getLatitude());
+    	a.setNumberOfCasualties(roadAccident.getNumberOfCasualties());
+    	a.setNumberOfVehicles(roadAccident.getNumberOfVehicles());
+
+    	accidentRepository.save(a);
+    	return true;
     }
 
 	public DistrictAuthorityRepository getDistrictAuthorityRepository() {
